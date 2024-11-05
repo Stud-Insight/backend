@@ -1,3 +1,21 @@
-.env
+# npm
+npm-debug.log
+.DS_Store
+package-lock.json
 **/node_modules
 node_modules/*
+
+# build
+**/dist
+dist/*
+
+# env
+.env
+
+# coveralls
+.nyc_output
+coverage
+
+# logs
+logs
+*.log
