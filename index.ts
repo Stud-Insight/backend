@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import testRoute from "./routes/test";
+import testRoute from "@routes/test";
 
 dotenv.config();
 
