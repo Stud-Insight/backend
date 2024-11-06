@@ -6,7 +6,6 @@ interface IUser {
     password?: String,
     email: String,
     roles: ObjectId[],
-    birthdate: Date,
     profilePicture: String,
     activationDate?: Date,
     activationToken?: String,
