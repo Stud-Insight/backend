@@ -26,6 +26,7 @@
     "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
+    "@types/connect": "^3.4.38",
     "@types/express": "^5.0.0",
     "@types/node": "^22.9.0",
     "concurrently": "^9.1.0",
