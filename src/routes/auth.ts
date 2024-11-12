@@ -8,4 +8,4 @@ router.post('/logout');
 router.post('/refresh');
 router.get('/activate/:id');
 
-export default router;
+module.exports = router;

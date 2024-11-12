@@ -5,11 +5,13 @@ import jwt from 'jsonwebtoken';
 
 
 const handleLogin = async (req: Request, res: Response) => {
-    const { username, password } = req.body as { username: string, password: string };
-    if (!username || !password) { res.status(400).send("Identifiant et/ou mot de passe manquant(s)."); return; }
+    const { email, password } = req.body as { email: string, password: string };
+    if (!email || !password) { res.status(400).send("Identifiant et/ou mot de passe manquant(s)."); return; }
 
-    const user = await User.findOne({ email: username });
+    const user = await User.findOne({ email: email });
     if(!user || !user.password) { res.status(401).send("Identifiant et/ou mot de passe incorrect(s)."); return; }
+
+    //console.log(user);
 
     const valid = await bcrypt.compare(password, user.password);
     if(!valid) { res.status(401).send("Identifiant et/ou mot de passe incorrect(s)."); return; }
@@ -39,11 +41,11 @@ const handleLogin = async (req: Request, res: Response) => {
     )
 
     await User.findOneAndUpdate(
-        { username: username },
+        { email: email },
         { refreshToken: refreshToken, lastLogin: new Date() }
     );
 
-    res.cookie('jwt', refreshToken, {
+    res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
     });

@@ -11,4 +11,4 @@ router.delete("/profilepicture");
 router.get(":userId/:documentId");
 router.delete(":userId/:fileId");
 
-export default router;
+module.exports = router;
