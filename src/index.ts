@@ -1,15 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
-
-import testRoute from "@routes/test";
-import User from "./models/User";
-import Role from "./models/Role";
 import mongoose from "mongoose";
+import config from 'config';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+import cors from 'cors';
+app.use(cors());
 
 // Connexion à MongoDB
 const db = process.env.DATABASE_URI as string || "";
@@ -23,15 +23,16 @@ mongoose.connect(db)
     });
 
 // Routes
-app.use('/', testRoute);
+import fileRoutes from "@routes/files";
+app.use('/files', fileRoutes);
 
-const PORT = process.env.PORT as string | "8080";
+const PORT = config.get('server.port') || "8080";
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
 
-
+/*
 const user = new User({
     firstName: "Jeremy",
     lastName: "Dupont",
@@ -41,10 +42,12 @@ const user = new User({
 });
 
 user.save();
-
+*/
 
 /*const admin = new Role({
     name: "admin"
 });
 
 admin.save();*/
+
+export default { db }
