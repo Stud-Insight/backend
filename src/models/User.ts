@@ -2,16 +2,16 @@ import { ObjectId, Schema, model } from "mongoose";
 import config from 'config';
 
 interface IUser {
-    firstName: String,
-    lastName: String,
-    password?: String,
-    email: String,
+    firstName: string,
+    lastName: string,
+    password?: string,
+    email: string,
     roles: ObjectId[],
-    profilePicture: String,
+    profilePicture: ObjectId,
     activationDate?: Date,
-    activationToken?: String,
+    activationToken?: string,
     lastLogin?: Date,
-    refreshToken?: String
+    refreshToken?: string
 }
 
 

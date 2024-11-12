@@ -23,7 +23,7 @@ mongoose.connect(db)
     });
 
 // Routes
-import fileRoutes from "@routes/files";
+import fileRoutes from "@/routes/attachments";
 app.use('/files', fileRoutes);
 
 const PORT = config.get('server.port') || "8080";
