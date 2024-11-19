@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:8080"
+    environment:
+      - DATABASE_URI=mongodb://root:example@localhost:27017/studinsight?authSource=admin
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-local
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - /home/basile/Documents/programmation/web/studinsight/docker/mongo-data:/data/db
+
+volumes:
+  mongo-data:
