@@ -1,8 +1,9 @@
 import express from "express";
-import testController from "@controllers/mailerController";
+import mailController from "@controllers/mailerController";
+import { text } from "stream/consumers";
 
 const router = express.Router();
 
-router.post('/test', testController.envoyerMail);
+router.post('/test', mailController.trySendMail);
 
 export default router;
