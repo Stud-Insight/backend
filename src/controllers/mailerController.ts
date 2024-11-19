@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import nodemailer from "nodemailer";
-//import dotenv from "dotenv";
-//dotenv.config();
+import dotenv from "dotenv";
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
