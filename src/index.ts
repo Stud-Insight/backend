@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-
-import testRoute from "@routes/test";
+import mongoose from "mongoose";
+import config from 'config';
 
 dotenv.config();
 
@@ -9,9 +9,46 @@ const app = express();
 const port = process.env.PORT || 8080;
 app.use(express.json());
 
-// Routes
-app.use('/', testRoute);
+import cors from 'cors';
+app.use(cors());
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+// Connexion à MongoDB
+const db = process.env.DATABASE_URI as string || "";
+
+mongoose.connect(db)
+    .then(() => {
+        console.log('MongoDB connected successfully');
+    })
+    .catch((error) => {
+        console.error('MongoDB connection error:', error);
+    });
+
+// Routes
+app.use('/auth', require("@routes/auth"))
+app.use('/attachments', require("@routes/attachments"))
+
+const PORT = config.get('server.port') || "8080";
+
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
 });
+
+/*
+const user = new User({
+    firstName: "Jeremy",
+    lastName: "Dupont",
+    email: "jeremy.dupont@gmail.com",
+    activationDate: new Date(),
+    password: "azerty"
+});
+
+user.save();
+*/
+
+/*const admin = new Role({
+    name: "admin"
+});
+
+admin.save();*/
+
+export default { db }
