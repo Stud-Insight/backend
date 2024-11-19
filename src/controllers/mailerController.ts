@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
   secure: false, // true for port 465, false for other ports
   auth: {
     user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
+    pass: process.env.SMTP_PASS,
   },
 });
 
@@ -18,17 +18,19 @@ const content = {
   to: "arthurdefays@gmail.com", // list of receivers
   subject: "Gun and Ships", // Subject line
   text: "LAFAYEEETTTTE t'as intérêt à marcher sinon je te ... !!", // plain text body
-}
+};
 
 const envoyerMail = async (req: Request, res: Response) => {
-    transporter.sendMail(content).then(()=>{
-      res.send({ message: "mail envoyé!", contente: content  });
+  transporter
+    .sendMail(content)
+    .then(() => {
+      res.send({ message: "mail envoyé!", contente: content });
     })
-    .catch((error)=>{
+    .catch((error) => {
       res.send({ message: "échec de l'envoie :(", error, content: content });
     });
 
   //res.send({ message: `Route d'envoie de mail ${req.method}` });
-}
+};
 
 export default { envoyerMail };
