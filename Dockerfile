@@ -5,6 +5,17 @@ FROM node:18 AS build
 # Définir le répertoire de travail dans le conteneur
 WORKDIR /app
 
+# Variables d'environnements
+ARG DATABASE_URI
+ARG PORT
+ARG ACCESS_TOKEN_SECRET
+ARG REFRESH_TOKEN_SECRET
+
+ENV DATABASE_URI=$DATABASE_URI
+ENV PORT=$PORT
+ENV ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET
+ENV REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET
+
 # Copier les fichiers package.json et package-lock.json
 COPY package*.json ./
 
