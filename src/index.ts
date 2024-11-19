@@ -9,6 +9,8 @@ const app = express();
 app.use(express.json());
 
 import cors from 'cors';
+import User, { IUser } from "./models/User";
+import { getPermissionsFromRolesIds, getPermissionsFromUserId, getRoles, getRolesFromUserId } from "./utils/roles";
 app.use(cors());
 
 // Connexion à MongoDB
@@ -32,17 +34,25 @@ app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
 
-/*
-const user = new User({
-    firstName: "Jeremy",
-    lastName: "Dupont",
-    email: "jeremy.dupont@gmail.com",
-    activationDate: new Date(),
-    password: "azerty"
-});
 
-user.save();
-*/
+async function test() {
+    const user = new User({
+        firstName: "Jeremy",
+        lastName: "Dupont",
+        email: "jeremy.dupont@gmail.com",
+        activationDate: new Date(),
+        password: "azerty"
+    });
+    //await user.save();
+    const jeremy = await User.findOne({ email: "jeremy.dupont@gmail.com" }) as IUser;
+    //console.log(jeremy);
+    //console.log(jeremy.id);
+
+    console.log(await getRolesFromUserId('673ccd2dd4e93ab7ea50a59e'));
+
+}
+
+test();
 
 /*const admin = new Role({
     name: "admin"

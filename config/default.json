@@ -1,7 +1,15 @@
 {
     "server": {
         "host": "localhost",
-        "port": 8080
+        "port": 8080,
+        "tokens": {
+            "access": {
+                "duration": "15m"
+            },
+            "refresh": {
+                "duration": "30m"
+            }
+        }
     },
     "database": {
         "filesBucketName": "Files"
