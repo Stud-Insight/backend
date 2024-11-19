@@ -1,6 +1,12 @@
 import { ObjectId, Schema, model } from "mongoose";
 import config from 'config';
 
+type Validator = (v: any) => Boolean; 
+
+const isEmailValid: Validator = (v: string) => {
+    return /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim.test(v);
+}
+
 interface IUser {
     firstName: string,
     lastName: string,
@@ -13,15 +19,6 @@ interface IUser {
     lastLogin?: Date,
     refreshToken?: string
 }
-
-
-type Validator = (v: any) => Boolean; 
-
-const isEmailValid: Validator = (v: string) => {
-    return /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim.test(v);
-}
-
-
 
 const userSchema = new Schema<IUser>({
     firstName: { type: String, required: true },
