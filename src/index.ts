@@ -2,15 +2,17 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import config from 'config';
-
+import cors from 'cors';
+import { getRolesFromUserId } from "./utils/roles";
+// Routes
+import User, { IUser } from "./models/User";
+import Role from "./models/Role";
+import AcademicProject from "./models/AcademicProject";
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-import cors from 'cors';
-import User, { IUser } from "./models/User";
-import { getPermissionsFromRolesIds, getPermissionsFromUserId, getRoles, getRolesFromUserId } from "./utils/roles";
 app.use(cors());
 
 // Connexion à MongoDB
@@ -24,7 +26,7 @@ mongoose.connect(db)
         console.error('MongoDB connection error:', error);
     });
 
-// Routes
+
 app.use('/auth', require("@routes/auth"))
 app.use('/attachments', require("@routes/attachments"))
 
@@ -54,10 +56,35 @@ async function test() {
 
 test();
 
-/*const admin = new Role({
+/*
+const getId = async ()=> {
+    const p = await User.findOne({lastName:"Dupont"}).exec();
+    console.log(p)
+    const idpersonne = p?.id
+    return idpersonne
+}
+
+const createStage = async () =>{
+    const idp = await getId()
+    console.log(idp)
+    const stage = new AcademicProject({
+        student: idp,
+        referent: idp,
+        supervisor: idp,
+        subject: "T.E.R L3",
+        type: "Internship",  
+        startDate: Date.now(),
+        finalDate: Date.now(),
+    })
+    stage.save();
+}
+
+
+createStage()
+
+const admin = new Role({
     name: "admin"
 });
+admin.save();
 
-admin.save();*/
-
-export default { db }
+export default { db }*/
