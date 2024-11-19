@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import fs from 'fs';
+import { promisify } from 'util';
+
 dotenv.config();
+
+const readFileAsync = promisify(fs.readFile);
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
@@ -13,14 +18,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const content = {
-  from: process.env.MAIL_CONTACT, // sender address
-  to: "arthurdefays@gmail.com", // list of receivers
-  subject: "Gun and Ships", // Subject line
-  text: "LAFAYEEETTTTE t'as intérêt à marcher sinon je te ... !!", // plain text body
-};
-
 const envoyerMail = async (req: Request, res: Response) => {
+  const htmlTemplate = await readFileAsync('./src/controllers/mailTemplate.html', 'utf-8');
+  const content = {
+    from: "Stud'Insight <"+process.env.MAIL_CONTACT+">", // sender address
+    to: "arthur.defays@gmail.com, aoto.taga.34@gmail.com", // list of receivers
+    subject: "Gun and Ships", // Subject line
+    html:htmlTemplate,
+  };
   transporter
     .sendMail(content)
     .then(() => {
