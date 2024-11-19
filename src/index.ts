@@ -2,13 +2,15 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import config from 'config';
-
+import cors from 'cors';
+// Routes
+import User from "./models/User";
+import Role from "./models/Role";
+import AcademicProject from "./models/AcademicProject";
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-
-import cors from 'cors';
 app.use(cors());
 
 // Connexion à MongoDB
@@ -22,7 +24,7 @@ mongoose.connect(db)
         console.error('MongoDB connection error:', error);
     });
 
-// Routes
+
 app.use('/auth', require("@routes/auth"))
 app.use('/attachments', require("@routes/attachments"))
 
@@ -32,7 +34,7 @@ app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
 
-/*
+// test bdd à supprimer
 const user = new User({
     firstName: "Jeremy",
     lastName: "Dupont",
@@ -40,14 +42,36 @@ const user = new User({
     activationDate: new Date(),
     password: "azerty"
 });
-
 user.save();
-*/
 
-/*const admin = new Role({
+const getId = async ()=> {
+    const p = await User.findOne({lastName:"Dupont"}).exec();
+    console.log(p)
+    const idpersonne = p?.id
+    return idpersonne
+}
+
+const createStage = async () =>{
+    const idp = await getId()
+    console.log(idp)
+    const stage = new AcademicProject({
+        student: idp,
+        referent: idp,
+        supervisor: idp,
+        subject: "T.E.R L3",
+        type: "Internship",  
+        startDate: Date.now(),
+        finalDate: Date.now(),
+    })
+    stage.save();
+}
+
+
+createStage()
+
+const admin = new Role({
     name: "admin"
 });
-
-admin.save();*/
+admin.save();
 
 export default { db }
