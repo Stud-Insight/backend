@@ -3,19 +3,21 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import genAccessToken, { AccessTokenPayload } from '../generators/accessTokenGen';
 import { getRolesFromUserId } from '@/utils/roles';
+import ResponseWrapper from '@/classes/ResponseWrapper';
 
 const handleRefresh = async (req: Request, res: Response) => {
+    const responseWrapper = new ResponseWrapper(res);
     const cookies = req.cookies;
 
     console.log("COOKIES!!!!!!!!");
     console.log(cookies);
 
-    if(!cookies?.refreshToken) { res.status(400).send("Jeton de rafraîchissement manquant."); return; }
+    if(!cookies?.refreshToken) { responseWrapper.sendError(400, "BAD_REQUEST", "Jeton de rafraîchissement manquant."); return; }
 
     if(!process.env.REFRESH_TOKEN_SECRET) throw new Error("REFRESH_TOKEN_SECRET IS NOT DEFINED");
 
     jwt.verify(cookies.refreshToken as string, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
-        if(err || !decoded) { res.sendStatus(401); return; }
+        if(err || !decoded) { responseWrapper.sendError(401, "INVALID_TOKEN"); return; }
         
         const decodedPayload = decoded as AccessTokenPayload;
         

@@ -3,16 +3,18 @@ import { Request, Response } from 'express';
 import genAccessToken from '../generators/accessTokenGen';
 import genRefreshToken from '../generators/refreshTokenGen';
 import { getRolesFromUserId } from '@/utils/roles';
+import ResponseWrapper from '@/classes/ResponseWrapper';
 
 const handleLogin = async (req: Request, res: Response) => {
+    const responseWrapper = new ResponseWrapper(res)
     const { email, password } = req.body as { email: string, password: string };
-    if(!email || !password) { res.status(400).send("Identifiant et/ou mot de passe manquant(s)."); return; }
+    if(!email || !password) { responseWrapper.sendError(400, "BAD_REQUEST", "Identifiant et/ou mot de passe manquant(s)."); return; }
 
     const user = await User.findOne({ email: email });
-    if(!user || !user.password) { res.status(401).send("Identifiant et/ou mot de passe incorrect(s)."); return; }
+    if(!user || !user.password) { responseWrapper.sendError(401, "INVALID_CREDENTIALS", "Identifiant et/ou mot de passe incorrect(s)."); return; }
 
     const valid = password == user.password; /*await bcrypt.compare(password, user.password);*/
-    if(!valid) { res.status(401).send("Identifiant et/ou mot de passe incorrect(s)."); return; }
+    if(!valid) { responseWrapper.sendError(401, "INVALID_CREDENTIALS", "Identifiant et/ou mot de passe incorrect(s)."); return; }
 
     const userRoles = await getRolesFromUserId(user.id);
 
