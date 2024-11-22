@@ -9,7 +9,7 @@ import { Request, Response } from 'express';
 const router = express.Router();
 
 router.post('/login', handleLogin);
-router.post('/logout', verifyAuth(), hasRoles("ADMIN"), (Request: Request, res: Response) => { res.status(200).send("Utilisateur a les rôles pour !!!!"); });
+router.post('/logout', verifyAuth, hasRoles("ADMIN"), (Request: Request, res: Response) => { res.status(200).send("Utilisateur a les rôles pour !!!!"); });
 router.post('/refresh', handleRefresh);
 router.get('/activate/:id');
 
