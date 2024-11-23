@@ -1,28 +1,12 @@
-import { ObjectId, Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import config from 'config';
-
-export interface IUser {
-    id: string,
-    firstName: string,
-    lastName: string,
-    password?: string,
-    email: string,
-    roles: ObjectId[],
-    profilePicture: ObjectId,
-    activationDate?: Date,
-    activationToken?: string,
-    lastLogin?: Date,
-    refreshToken?: string
-}
-
+import IUser from "@/interfaces/IUser";
 
 type Validator = (v: any) => Boolean; 
 
 const isEmailValid: Validator = (v: string) => {
     return /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim.test(v);
 }
-
-
 
 const userSchema = new Schema<IUser>({
     firstName: { type: String, required: true },

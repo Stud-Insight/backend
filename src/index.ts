@@ -5,10 +5,11 @@ import config from 'config';
 import cors from 'cors';
 import { getRolesFromUserId } from "./utils/roles";
 // Routes
-import User, { IUser } from "./models/User";
+import User from "./models/User";
 import Role from "./models/Role";
 import AcademicProject from "./models/AcademicProject";
 import genActivationToken from "./controllers/generators/activationTokenGen";
+import IUser from "./interfaces/IUser";
 dotenv.config();
 
 const app = express();

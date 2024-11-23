@@ -1,8 +1,8 @@
-import { AccessTokenPayload } from '@/controllers/generators/accessTokenGen';
 import AuthRequestWrapper from '@/interfaces/AuthRequestWrapper';
 import ResponseWrapper from '@/classes/ResponseWrapper';
 import { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import AccessTokenPayload from '@/interfaces/tokens/AccessTokenPayload';
 
 const verifyAuth = () => {
     return (req: AuthRequestWrapper, res: Response, next: NextFunction) => {

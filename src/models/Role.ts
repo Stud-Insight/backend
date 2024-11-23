@@ -1,10 +1,5 @@
+import IRole from "@/interfaces/IRole";
 import { Schema, model } from "mongoose";
-
-export interface IRole {
-    id: string,
-    name: string,
-    permissions: string[]
-}
 
 const roleSchema = new Schema<IRole>({
     name: { type: String, required: [true, "A role must have a name."] },

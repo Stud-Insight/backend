@@ -2,8 +2,8 @@ import ResponseWrapper from '@/classes/ResponseWrapper';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { ActivationTokenPayload } from '../generators/activationTokenGen';
 import User from '@/models/User';
+import ActivationTokenPayload from '@/interfaces/tokens/ActivationTokenPayload';
 
 const handleActivation = (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);

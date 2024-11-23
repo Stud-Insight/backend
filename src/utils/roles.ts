@@ -1,5 +1,7 @@
-import Role, { IRole } from "@/models/Role";
-import User, { IUser } from "@/models/User";
+import IRole from "@/interfaces/IRole";
+import IUser from "@/interfaces/IUser";
+import Role from "@/models/Role";
+import User from "@/models/User";
 import { ObjectId } from "mongoose";
 
 export const getRoles = async (ids: String[]): Promise<IRole[]> => {

@@ -1,9 +1,10 @@
 import User from '@/models/User';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import genAccessToken, { AccessTokenPayload } from '../generators/accessTokenGen';
+import genAccessToken from '../generators/accessTokenGen';
 import { getRolesFromUserId } from '@/utils/roles';
 import ResponseWrapper from '@/classes/ResponseWrapper';
+import AccessTokenPayload from '@/interfaces/tokens/AccessTokenPayload';
 
 const handleRefresh = async (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);

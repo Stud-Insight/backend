@@ -1,8 +1,5 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
-
-export interface ActivationTokenPayload extends JwtPayload {
-    id: String
-}
+import ActivationTokenPayload from '@/interfaces/tokens/ActivationTokenPayload';
+import jwt from 'jsonwebtoken';
 
 const genActivationToken = (payload: ActivationTokenPayload) => {
     if(!process.env.ACTIVATION_TOKEN_SECRET) throw new Error("ACTIVATION_TOKEN_SECRET NOT FOUND");
