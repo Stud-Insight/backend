@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { AccessTokenPayload } from "@/controllers/generators/accessTokenGen";
+import AccessTokenPayload from './tokens/AccessTokenPayload';
 
 interface AuthRequestWrapper extends Request {
     authDecoded?: AccessTokenPayload;
