@@ -8,6 +8,7 @@ import { getRolesFromUserId } from "./utils/roles";
 import User, { IUser } from "./models/User";
 import Role from "./models/Role";
 import AcademicProject from "./models/AcademicProject";
+import genActivationToken from "./controllers/generators/activationTokenGen";
 dotenv.config();
 
 const app = express();
@@ -42,15 +43,17 @@ async function test() {
         firstName: "Jeremy",
         lastName: "Dupont",
         email: "jeremy.dupont@gmail.com",
-        activationDate: new Date(),
-        password: "azerty"
     });
-    //await user.save();
+    await user.save();
     const jeremy = await User.findOne({ email: "jeremy.dupont@gmail.com" }) as IUser;
     //console.log(jeremy);
     //console.log(jeremy.id);
 
-    console.log(await getRolesFromUserId('673ccd2dd4e93ab7ea50a59e'));
+    const activationToken = genActivationToken({ id: jeremy.id });
+
+    await User.findOneAndUpdate({ email: "jeremy.dupont@gmail.com" }, {
+        activationToken
+    });
 
 }
 

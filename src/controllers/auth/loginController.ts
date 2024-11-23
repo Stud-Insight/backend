@@ -4,6 +4,7 @@ import genAccessToken from '../generators/accessTokenGen';
 import genRefreshToken from '../generators/refreshTokenGen';
 import { getRolesFromUserId } from '@/utils/roles';
 import ResponseWrapper from '@/classes/ResponseWrapper';
+import bcrypt from 'bcrypt'
 
 const handleLogin = async (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res)
@@ -13,7 +14,7 @@ const handleLogin = async (req: Request, res: Response) => {
     const user = await User.findOne({ email: email });
     if(!user || !user.password) { responseWrapper.sendError(401, "INVALID_CREDENTIALS", "Identifiant et/ou mot de passe incorrect(s)."); return; }
 
-    const valid = password == user.password; /*await bcrypt.compare(password, user.password);*/
+    const valid = await bcrypt.compare(password, user.password);
     if(!valid) { responseWrapper.sendError(401, "INVALID_CREDENTIALS", "Identifiant et/ou mot de passe incorrect(s)."); return; }
 
     const userRoles = await getRolesFromUserId(user.id);
