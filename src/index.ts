@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import config from 'config';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { getRolesFromUserId } from "./utils/roles";
 // Routes
 import User from "./models/User";
@@ -13,9 +14,9 @@ import IUser from "./interfaces/IUser";
 dotenv.config();
 
 const app = express();
-app.use(express.json());
-
 app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
 
 // Connexion à MongoDB
 const db = process.env.DATABASE_URI as string || "";
@@ -58,7 +59,7 @@ async function test() {
 
 }
 
-test();
+//test();
 
 /*
 const getId = async ()=> {
