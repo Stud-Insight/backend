@@ -10,6 +10,9 @@ import Role from "./models/Role";
 import AcademicProject from "./models/AcademicProject";
 import genActivationToken from "./controllers/generators/activationTokenGen";
 import IUser from "./interfaces/IUser";
+//tester l'envoie de mail
+import testRoute from "@/routes/mailerTest";
+
 dotenv.config();
 
 
@@ -20,6 +23,10 @@ const DATABASE_URI = process.env.DATABASE_URI || "";
 app.use(express.json());
 
 app.use(cors());
+
+
+//tester l'envoie de mail
+app.use('/', testRoute);
 
 // Connexion à MongoDB
 mongoose.connect(DATABASE_URI)
