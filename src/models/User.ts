@@ -1,12 +1,7 @@
 import { Schema, model } from "mongoose";
 import config from 'config';
 import IUser from "@/interfaces/IUser";
-
-type Validator = (v: any) => Boolean; 
-
-const isEmailValid: Validator = (v: string) => {
-    return /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim.test(v);
-}
+import isEmailValid from "./validators/isEmailValid";
 
 const userSchema = new Schema<IUser>({
     firstName: { type: String, required: true },
