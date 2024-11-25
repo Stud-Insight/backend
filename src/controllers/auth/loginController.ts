@@ -27,13 +27,13 @@ const handleLogin = async (req: Request, res: Response) => {
         roles: userRoles
     });
 
-    const refreshToken = genRefreshToken({
-        id: user.id
+    const { refreshToken, jti } = genRefreshToken({
+        userId: user.id
     });
 
     await User.findOneAndUpdate(
         { email: email },
-        { refreshToken: refreshToken, lastLogin: new Date() }
+        { refreshToken: jti, lastLogin: new Date() }
     );
 
     res.cookie('refreshToken', refreshToken, {

@@ -5,13 +5,12 @@ import genAccessToken from '../generators/accessTokenGen';
 import { getRolesFromUserId } from '@/utils/roles';
 import ResponseWrapper from '@/classes/ResponseWrapper';
 import AccessTokenPayload from '@/interfaces/tokens/AccessTokenPayload';
+import RefreshTokenPayload from '@/interfaces/tokens/RefreshTokenPayload';
+import genRefreshToken from '../generators/refreshTokenGen';
 
 const handleRefresh = async (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);
     const cookies = req.cookies;
-
-    console.log("COOKIES!!!!!!!!");
-    console.log(cookies);
 
     if(!cookies?.refreshToken) { responseWrapper.sendError(400, "BAD_REQUEST", "Jeton de rafraîchissement manquant."); return; }
 
@@ -20,10 +19,12 @@ const handleRefresh = async (req: Request, res: Response) => {
     jwt.verify(cookies.refreshToken as string, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
         if(err || !decoded) { responseWrapper.sendError(401, "INVALID_TOKEN"); return; }
         
-        const decodedPayload = decoded as AccessTokenPayload;
+        const decodedPayload = decoded as RefreshTokenPayload;
         
-        const user = await User.findOne({ id: decodedPayload.id });
+        const user = await User.findById(decodedPayload.userId);
         if(!user) throw new Error("The user who requested a new access token doesn't exist in the database.");
+
+        if(user.refreshToken != decodedPayload.jti) { responseWrapper.sendError(401, "INVALID_TOKEN"); return; }
 
         const userRoles = await getRolesFromUserId(user.id);
 
@@ -35,7 +36,30 @@ const handleRefresh = async (req: Request, res: Response) => {
             roles: userRoles
         });
 
-        res.json({ accessToken: newAccessToken });
+        /*
+            Pour plus de sécurité, il est possible de regénérer un refreshToken à
+            chaque demande d'un nouvel accessToken afin de réduire les chances
+            de vol et d'utilisation d'anciens tokens.  
+        */
+
+        /*
+        const { refreshToken: newRefreshToken, jti: newJti } = genRefreshToken({
+            userId: user.id
+        });
+
+        await User.findByIdAndUpdate(
+            user.id,
+            { refreshToken: newJti }
+        );
+
+        res.cookie('refreshToken', newRefreshToken, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000,
+        });
+        */
+
+        res.status(200).json({ accessToken: newAccessToken });
+
     });
 
 }
