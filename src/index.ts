@@ -12,6 +12,7 @@ import genActivationToken from "./controllers/generators/activationTokenGen";
 import IUser from "./interfaces/IUser";
 dotenv.config();
 
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 const DATABASE_URI = process.env.DATABASE_URI || "";
