@@ -4,12 +4,12 @@ import jwt from 'jsonwebtoken';
 
 const genRefreshToken = (payload: RefreshTokenPayload) => {
     if(!process.env.REFRESH_TOKEN_SECRET) throw new Error("REFRESH_TOKEN_SECRET NOT FOUND");
-    const accessToken = jwt.sign(
+    const refreshToken = jwt.sign(
         payload,
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: config.get("server.tokens.refresh.duration") }
     );
-    return accessToken;
+    return refreshToken;
 }
 
 export default genRefreshToken;
