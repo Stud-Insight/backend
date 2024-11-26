@@ -4,6 +4,6 @@ import { text } from "stream/consumers";
 
 const router = express.Router();
 
-router.post('/test', mailController.trySendMail);
+router.post('/mailer', mailController.trySendMail);
 
 export default router;
