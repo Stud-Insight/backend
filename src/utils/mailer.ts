@@ -21,17 +21,17 @@ const transporter = nodemailer.createTransport({
 
 
 const sendMail = async (receivers:string, subject:string, template:string) => {
-  const htmlTemplate = await readFileAsync(`./src/controllers/mailTemplates/${template}.html`, 'utf-8');
+  const htmlTemplate = await readFileAsync(`../../assets/mailTemplates/${template}.html`, 'utf-8');
   const content =  {
     from: "Stud'Insight <"+process.env.MAIL_CONTACT+">", // sender address
     to: receivers, // list of receivers
-    subject: subject, // Subject line
+    subject: subject, // subject line
     html:htmlTemplate, // plain text body
   }
   transporter
     .sendMail(content)
     .then(()=>{
-      console.log({ message: "mail envoyé!"});
+      console.log({ message: "mail envoyé!", subject: subject});
     })
     .catch((error)=>{
       console.log({ message: "échec de l'envoie :(", error});
@@ -40,18 +40,18 @@ const sendMail = async (receivers:string, subject:string, template:string) => {
 
 //https://www.nodemailer.com/message/attachments/
 const sendMailFile = async (receivers:string, subject:string, template:string, attachmentsList:Attachment[]) => {
-  const htmlTemplate = await readFileAsync(`./src/controllers/mailTemplates/${template}.html`, 'utf-8');
+  const htmlTemplate = await readFileAsync(`../../assets/mailTemplates/${template}.html`, 'utf-8');
   const content =  {
     from: "Stud'Insight <"+process.env.MAIL_CONTACT+">", // sender address
     to: receivers, // list of receivers
-    subject: subject, // Subject line
+    subject: subject, // subject line
     html:htmlTemplate, // plain text body
     attachments: attachmentsList, //Attachments list
   }
   transporter
     .sendMail(content)
     .then(()=>{
-      console.log({ message: "mail envoyé!"});
+      console.log({ message: "mail envoyé!", subject: subject});
     })
     .catch((error)=>{
       console.log({ message: "échec de l'envoie :(", error});
