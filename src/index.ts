@@ -1,19 +1,49 @@
 import express from "express";
 import dotenv from "dotenv";
-
-import testRoute from "@/routes/test";
+import mongoose from "mongoose";
+import config from 'config';
+import cors from 'cors';
+import { getRolesFromUserId } from "./utils/roles";
+// Routes
+import User from "./models/User";
+import Role from "./models/Role";
+import AcademicProject from "./models/AcademicProject";
+import genActivationToken from "./controllers/generators/activationTokenGen";
+import IUser from "./interfaces/IUser";
+//tester l'envoie de mail
+//import testRoute from "@/routes/mailerTest";
+import mailerController from "./controllers/mailerController";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 8080;
+
 const app = express();
+const PORT = process.env.PORT || 8080;
+const DATABASE_URI = process.env.DATABASE_URI || "";
+
 app.use(express.json());
 
-// Routes
-app.use('/', testRoute);
+app.use(cors());
+
+
+//tester l'envoie de mail
+//app.use('/', testRoute);
+
+// Connexion à MongoDB
+mongoose.connect(DATABASE_URI)
+    .then(() => {
+        console.log('MongoDB connected successfully');
+    })
+    .catch((error) => {
+        console.error('MongoDB connection error:', error);
+    });
+
+
+app.use('/auth', require("@routes/auth"))
+app.use('/attachments', require("@routes/attachments"))
 
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+    console.log(`Server listening on port ${PORT}`);
 });
 
 
@@ -32,23 +62,23 @@ async function Jeremy() {
 
 const createUser = async (firstNameVar: string, lastNameVar: String, emailVar: string) => {
     console.log('creatUser')
+    const id = new mongoose.Types.ObjectId();
+    const activationToken = genActivationToken({ id: String(id)});
     const user = new User({
+        _id: id,
         firstName: firstNameVar,
         lastName: lastNameVar ,
         email: emailVar,
-        password: null 
+        password: null,
+        activationToken: activationToken
     });
-    const activationToken = genActivationToken({ id: user.id });
-
-    await User.findOneAndUpdate({ email: emailVar }, {
-        activationToken
-    });
+    console.log(user)
     user.save();
-    
-    mailerController.trySendMail(emailVar,'première connexion', firstNameVar)
+    mailerController.trySendMail(emailVar,'première connexion')
 }
+
 console.log('test')
-createUser("Aoto","taga","aoto.taga.34@gmail.com");
+createUser("Arthur","de-Fays","arthur.defays@gmail.com");
 
 /*
 const getId = async ()=> {
