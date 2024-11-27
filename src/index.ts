@@ -1,49 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
-import config from 'config';
-import cors from 'cors';
-import { getRolesFromUserId } from "./utils/roles";
-// Routes
-import User from "./models/User";
-import Role from "./models/Role";
-import AcademicProject from "./models/AcademicProject";
-import genActivationToken from "./controllers/generators/activationTokenGen";
-import IUser from "./interfaces/IUser";
-//tester l'envoie de mail
-//import testRoute from "@/routes/mailerTest";
-import mailerController from "./controllers/mailerController";
+
+import testRoute from "@/routes/test";
 
 dotenv.config();
 
-
-const app = express();
 const PORT = process.env.PORT || 8080;
-const DATABASE_URI = process.env.DATABASE_URI || "";
-
+const app = express();
 app.use(express.json());
 
-app.use(cors());
-
-
-//tester l'envoie de mail
-//app.use('/', testRoute);
-
-// Connexion à MongoDB
-mongoose.connect(DATABASE_URI)
-    .then(() => {
-        console.log('MongoDB connected successfully');
-    })
-    .catch((error) => {
-        console.error('MongoDB connection error:', error);
-    });
-
-
-app.use('/auth', require("@routes/auth"))
-app.use('/attachments', require("@routes/attachments"))
+// Routes
+app.use('/', testRoute);
 
 app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
 
 
@@ -75,8 +45,7 @@ const createUser = async (firstNameVar: string, lastNameVar: String, emailVar: s
     });
     user.save();
     
-    //mailerController.trySendMail(emailVar,'première connexion')
-    mailerController.trySendMail("anouk.oms@etu.umontpellier.fr",'première connexion')
+    mailerController.trySendMail(emailVar,'première connexion', firstNameVar)
 }
 console.log('test')
 createUser("Aoto","taga","aoto.taga.34@gmail.com");
