@@ -75,7 +75,8 @@ const createUser = async (firstNameVar: string, lastNameVar: String, emailVar: s
     });
     user.save();
     
-    mailerController.trySendMail(emailVar,'première connexion', firstNameVar)
+    //mailerController.trySendMail(emailVar,'première connexion')
+    mailerController.trySendMail("anouk.oms@etu.umontpellier.fr",'première connexion')
 }
 console.log('test')
 createUser("Aoto","taga","aoto.taga.34@gmail.com");
