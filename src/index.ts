@@ -62,7 +62,7 @@ async function Jeremy() {
 
 const createUser = async (firstNameVar: string, lastNameVar: String, emailVar: string) => {
     console.log('creatUser')
-    var id = new mongoose.Types.ObjectId();
+    const id = new mongoose.Types.ObjectId();
     const activationToken = genActivationToken({ id: String(id)});
     const user = new User({
         _id: id,
