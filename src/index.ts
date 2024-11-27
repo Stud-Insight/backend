@@ -11,7 +11,8 @@ import AcademicProject from "./models/AcademicProject";
 import genActivationToken from "./controllers/generators/activationTokenGen";
 import IUser from "./interfaces/IUser";
 //tester l'envoie de mail
-import testRoute from "@/routes/mailerTest";
+//import testRoute from "@/routes/mailerTest";
+import mailerController from "./controllers/mailerController";
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ app.use(cors());
 
 
 //tester l'envoie de mail
-app.use('/', testRoute);
+//app.use('/', testRoute);
 
 // Connexion à MongoDB
 mongoose.connect(DATABASE_URI)
@@ -46,7 +47,7 @@ app.listen(PORT, () => {
 });
 
 
-async function test() {
+async function Jeremy() {
     const user = new User({
         firstName: "Jeremy",
         lastName: "Dupont",
@@ -57,15 +58,27 @@ async function test() {
     //console.log(jeremy);
     //console.log(jeremy.id);
 
-    const activationToken = genActivationToken({ id: jeremy.id });
-
-    await User.findOneAndUpdate({ email: "jeremy.dupont@gmail.com" }, {
-        activationToken
-    });
-
 }
 
-test();
+const createUser = async (firstNameVar: string, lastNameVar: String, emailVar: string) => {
+    console.log('creatUser')
+    const user = new User({
+        firstName: firstNameVar,
+        lastName: lastNameVar ,
+        email: emailVar,
+        password: null 
+    });
+    const activationToken = genActivationToken({ id: user.id });
+
+    await User.findOneAndUpdate({ email: emailVar }, {
+        activationToken
+    });
+    user.save();
+    
+    mailerController.trySendMail(emailVar,'première connexion', firstNameVar)
+}
+console.log('test')
+createUser("Aoto","taga","aoto.taga.34@gmail.com");
 
 /*
 const getId = async ()=> {
