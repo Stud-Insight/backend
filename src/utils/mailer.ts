@@ -20,15 +20,14 @@ const transporter = nodemailer.createTransport({
 });
 
 
-const sendMail = async (receivers:string, Tubject:string, template:string) => {
+const sendMail = async (receivers:string, subject:string, template:string, firstName:string) => {
   const htmlTemplate = await readFileAsync(`./src/controllers/mailTemplates/${template}.html`, 'utf-8');
   const content =  {
     from: "Stud'Insight <"+process.env.MAIL_CONTACT+">", // sender address
     to: receivers, // list of receivers
-    subject: Tubject, // Subject line
+    subject: subject, // Subject line
     html:htmlTemplate, // plain text body
   }
-  console.log(Tubject)
   transporter
     .sendMail(content)
     .then(()=>{

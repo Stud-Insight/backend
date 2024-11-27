@@ -62,23 +62,23 @@ async function Jeremy() {
 
 const createUser = async (firstNameVar: string, lastNameVar: String, emailVar: string) => {
     console.log('creatUser')
+    var id = new mongoose.Types.ObjectId();
+    const activationToken = genActivationToken({ id: String(id)});
     const user = new User({
+        _id: id,
         firstName: firstNameVar,
         lastName: lastNameVar ,
         email: emailVar,
-        password: null 
+        password: null,
+        activationToken: activationToken
     });
-    const activationToken = genActivationToken({ id: user.id });
-
-    await User.findOneAndUpdate({ email: emailVar }, {
-        activationToken
-    });
+    console.log(user)
     user.save();
-    
     mailerController.trySendMail(emailVar,'première connexion', firstNameVar)
 }
+
 console.log('test')
-createUser("Aoto","taga","aoto.taga.34@gmail.com");
+createUser("Arthur","de-Fays","arthur.defays@gmail.com");
 
 /*
 const getId = async ()=> {
