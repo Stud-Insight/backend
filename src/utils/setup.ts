@@ -1,19 +1,25 @@
-import User from '@/models/User';
 import generator from 'generate-password';
+
+
+import User from '@/models/User';
+import IUser from '@/interfaces/IUser';
+import { addRoles, addRolesFromNames } from './roles';
 
 const SETUP_PREFIX = '[Setup] ';
 
-export const adminUserExists = () => {};
+export const checkAdminExists = async () => {
+    const query: IUser | null = await User.findOne({ firstName: 'admin' });
+    return !!query;
+}
 
 export const createAdminUser = async () => {
-    let username = process.env.ADMIN_EMAIL || process.env.ADMIN_USER;
+    let username = process.env.ADMIN_USER;
     let email = process.env.ADMIN_EMAIL;
     let password = process.env.ADMIN_PASSWORD;
 
-    if (!username && !email) {
+    if (!username) {
         username = 'admin';
-        console.info(SETUP_PREFIX + 'ADMIN_EMAIL or ADMIN_USER environement variables not found.');
-        console.info(SETUP_PREFIX + `Creating default username: admin`);
+        console.info(SETUP_PREFIX + 'ADMIN_USER environement variable not found. Creating default account username: admin');
     }
 
     if (!password) {
@@ -21,8 +27,7 @@ export const createAdminUser = async () => {
             length: 12,
             numbers: true,
         });
-        console.info(SETUP_PREFIX + 'ADMIN_PASSWORD environement variable not found.');
-        console.info(SETUP_PREFIX + `Creating a random password: ${password}`);
+        console.info(SETUP_PREFIX + `ADMIN_PASSWORD environement variable not found. Creating a random password: ${password}`);
     }
 
     const user = new User({
@@ -32,6 +37,7 @@ export const createAdminUser = async () => {
         password: password,
         activationDate: new Date()
     });
+    addRolesFromNames(user.id, "ADMIN");
 
     try {
         await user.save();

@@ -2,7 +2,21 @@ import IRole from "@/interfaces/IRole";
 import IUser from "@/interfaces/IUser";
 import Role from "@/models/Role";
 import User from "@/models/User";
-import { ObjectId } from "mongoose";
+import mongoose, { ObjectId, Schema, model } from "mongoose";
+
+export const addRoles = async (userId: String, ...roles: IRole[]) => {
+    const user = await User.findById(userId);
+    if (!user) return;
+    const filter = roles.map(role => ({ _id: role.id }));
+    const rolesToInsert = await Role.find({ $or: filter });
+    user.roles = [...user.roles, ...rolesToInsert.map((role) => role.id as ObjectId)];
+    await user.save();
+}
+
+export const addRolesFromNames = async (userId: String, ...rolesName: String[]) => {
+    const roles = await Role.find({ name: { $in: rolesName } });
+    addRoles(userId, ...roles);
+}
 
 export const getRoles = async (ids: String[]): Promise<IRole[]> => {
     let filter: { _id: String }[] = []
@@ -10,6 +24,7 @@ export const getRoles = async (ids: String[]): Promise<IRole[]> => {
     const roles: IRole[] = await Role.find({ $or: filter });
     return roles;
 }
+
 
 export const getRolesFromUserId = async (userId: String): Promise<IRole[]> => {
     const user: IUser | null = await User.findById(userId);
