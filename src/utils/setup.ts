@@ -1,5 +1,5 @@
 import generator from 'generate-password';
-
+import bcrypt from 'bcrypt';
 
 import User from '@/models/User';
 import IUser from '@/interfaces/IUser';
@@ -31,11 +31,11 @@ export const createAdminUser = async () => {
         console.info(SETUP_PREFIX + `ADMIN_PASSWORD environement variable not found. Creating a random password: ${password}`);
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
         firstName: username,
-        lastName: undefined,
         email: username + '@example.com',
-        password: password,
+        password: hashedPassword,
         activationDate: new Date()
     });
     addRolesFromNames(user.id, "ADMIN");
