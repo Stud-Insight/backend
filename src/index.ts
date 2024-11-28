@@ -26,5 +26,5 @@ app.use('/auth', require('@routes/auth'));
 app.use('/attachments', require('@routes/attachments'));
 
 app.listen(PORT, () => {
-    console.log(`[Backend] Server listening on port ${PORT}`);
+    console.log(`[🔥] Server listening on port ${PORT}`);
 });

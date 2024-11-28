@@ -11,6 +11,7 @@ const userSchema = new Schema<IUser>({
     email: {
         type: String,
         validate: [isEmailValid, "{VALUE} is not a valid email."],
+        required: true
     },
     profilePicture: { type: Schema.Types.ObjectId, ref: config.get('database.filesBucketName') + ".files", required: false },
     activationDate: { type: Date },

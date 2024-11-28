@@ -3,18 +3,19 @@ import generator from 'generate-password';
 
 import User from '@/models/User';
 import IUser from '@/interfaces/IUser';
-import { addRoles, addRolesFromNames } from './roles';
+import { addRolesFromNames } from './roles';
+import Role from '@/models/Role';
 
-const SETUP_PREFIX = '[Setup] ';
+const SETUP_PREFIX = '[🔧] ';
 
 export const checkAdminExists = async () => {
-    const query: IUser | null = await User.findOne({ firstName: 'admin' });
+    const adminRole = await Role.findOne({ name: 'ADMIN' });
+    const query: IUser | null = await User.findOne({ roles: { $in: [adminRole?._id] } });
     return !!query;
 }
 
 export const createAdminUser = async () => {
     let username = process.env.ADMIN_USER;
-    let email = process.env.ADMIN_EMAIL;
     let password = process.env.ADMIN_PASSWORD;
 
     if (!username) {
@@ -33,7 +34,7 @@ export const createAdminUser = async () => {
     const user = new User({
         firstName: username,
         lastName: undefined,
-        email: email,
+        email: username + '@example.com',
         password: password,
         activationDate: new Date()
     });
@@ -41,7 +42,8 @@ export const createAdminUser = async () => {
 
     try {
         await user.save();
-        console.info(SETUP_PREFIX + 'Successfully created default admin account.');
+        let redactedPassword = password.slice(0, 2) + '*'.repeat(password.length - 2);
+        console.info(SETUP_PREFIX + `Successfully created default admin account. (${username}, ${redactedPassword})`);
     } catch (error) {
         console.error(SETUP_PREFIX + 'An error occured when creating admin user.');
         console.error(error);

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const DATABASE_PREFIX = '[Database] ';
+const DATABASE_PREFIX = '[🌐] ';
 
 export const connectDatabase = async (uri: string) => {
     console.info(DATABASE_PREFIX + 'Connecting to MongoDB...');
