@@ -7,6 +7,8 @@ import ResponseWrapper from '@/classes/ResponseWrapper';
 import AccessTokenPayload from '@/interfaces/tokens/AccessTokenPayload';
 import RefreshTokenPayload from '@/interfaces/tokens/RefreshTokenPayload';
 import genRefreshToken from '../generators/refreshTokenGen';
+import config from 'config';
+import ms from 'ms';
 
 const handleRefresh = async (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);
@@ -58,8 +60,9 @@ const handleRefresh = async (req: Request, res: Response) => {
         });
         */
 
-        res.status(200).json({ accessToken: newAccessToken });
+        const accessTokenMaxAge = parseInt(ms(config.get('server.tokens.access.duration'))) / 1000;
 
+        res.status(200).json({ access: { token: newAccessToken, maxAge: accessTokenMaxAge } });
     });
 
 }
