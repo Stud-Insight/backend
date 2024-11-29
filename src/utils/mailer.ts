@@ -8,7 +8,6 @@ import { promisify } from 'util';
 import messageContent from "@/interfaces/messageContent";
 import contentBySubj from "./emailContent";
 
-//import mustache from "mustache";
 const mustache = require('mustache');
 
 dotenv.config();
