@@ -5,6 +5,12 @@ import dotenv from "dotenv";
 import fs from 'fs';
 import { promisify } from 'util';
 
+import messageContent from "@/interfaces/messageContent";
+import contentBySubj from "./emailContent";
+
+//import mustache from "mustache";
+const mustache = require('mustache');
+
 dotenv.config();
 
 const readFileAsync = promisify(fs.readFile);
@@ -19,43 +25,32 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const sendMail = async (receiver:string, subject:string) => {
+  const htmlTemplate = await readFileAsync("./assets/mailTemplates/defaultTemplate.html", 'utf-8');
 
-const sendMail = async (receivers:string, subject:string, template:string) => {
-  const htmlTemplate = await readFileAsync(`../../assets/mailTemplates/${template}.html`, 'utf-8');
-  const content =  {
+  const content:messageContent = contentBySubj(receiver, subject);
+
+  const renderedTemplate = mustache.render(htmlTemplate, {
+    receiver: content.receiver,
+    title: content.title,
+    text: content.text,
+    button: content.button
+  });
+
+  const mailOptions =  {
     from: "Stud'Insight <"+process.env.MAIL_CONTACT+">", // sender address
-    to: receivers, // list of receivers
-    subject: subject, // subject line
-    html:htmlTemplate, // plain text body
+    to: receiver, // list of receivers
+    subject: content.subject, // Subject line
+    html:renderedTemplate, // plain text body
   }
   transporter
-    .sendMail(content)
+    .sendMail(mailOptions)
     .then(()=>{
-      console.log({ message: "mail envoyé!", subject: subject});
+      console.log({ message: "mail envoyé!"});
     })
     .catch((error)=>{
       console.log({ message: "échec de l'envoie :(", error});
     });
 }
 
-//https://www.nodemailer.com/message/attachments/
-const sendMailFile = async (receivers:string, subject:string, template:string, attachmentsList:Attachment[]) => {
-  const htmlTemplate = await readFileAsync(`../../assets/mailTemplates/${template}.html`, 'utf-8');
-  const content =  {
-    from: "Stud'Insight <"+process.env.MAIL_CONTACT+">", // sender address
-    to: receivers, // list of receivers
-    subject: subject, // subject line
-    html:htmlTemplate, // plain text body
-    attachments: attachmentsList, //Attachments list
-  }
-  transporter
-    .sendMail(content)
-    .then(()=>{
-      console.log({ message: "mail envoyé!", subject: subject});
-    })
-    .catch((error)=>{
-      console.log({ message: "échec de l'envoie :(", error});
-    });
-}
-
-export default { sendMail, sendMailFile };
+export default { sendMail };
