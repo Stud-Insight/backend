@@ -59,12 +59,12 @@ const handleLogin = async (req: Request, res: Response) => {
         { refreshToken: jti, lastLogin: new Date() }
     );
 
-    const accessTokenMaxAge = parseInt(ms(config.get('server.tokens.access.duration'))) / 1000;
-    const refreshTokenMaxAge = parseInt(ms(config.get('server.tokens.refresh.duration'))) / 1000;
+    const sessionMaxAge = parseInt(ms(config.get('server.tokens.refresh.duration'))) / 1000;
 
     res.json({
-        access: { token: accessToken, maxAge: accessTokenMaxAge },
-        refresh: { token: refreshToken, maxAge: refreshTokenMaxAge },
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        sessionMaxAge: sessionMaxAge,
     });
 };
 
