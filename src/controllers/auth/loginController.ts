@@ -36,12 +36,14 @@ const handleLogin = async (req: Request, res: Response) => {
         { refreshToken: jti, lastLogin: new Date() }
     );
 
-    res.cookie('refreshToken', refreshToken, {
+    /*res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
+        //secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
         maxAge: 24 * 60 * 60 * 1000,
-    });
+    });*/
 
-    res.json({ accessToken });
+    res.json({ accessToken, refreshToken });
 }
 
 export default handleLogin;

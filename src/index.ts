@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from 'express';
+import morgan from 'morgan';
 
 import { connectDatabase } from '@/utils/database';
 import { checkAdminExists, createAdminUser } from './utils/setup';
@@ -16,6 +17,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan('combined'));
 
 connectDatabase(DATABASE_URI).then(async () => {
     const adminExists = await checkAdminExists();
