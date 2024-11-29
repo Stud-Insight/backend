@@ -19,3 +19,7 @@ coverage
 # logs
 logs
 *.log
+
+#mongo-data
+**/mongo-data
+mongo-data/*
