@@ -10,9 +10,10 @@ import Role from "./models/Role";
 import AcademicProject from "./models/AcademicProject";
 import genActivationToken from "./controllers/generators/activationTokenGen";
 import IUser from "./interfaces/IUser";
-//tester l'envoie de mail
-//import testRoute from "@/routes/mailerTest";
+
 import mailerController from "./controllers/mailerController";
+import EmailSubjects from "./enums/emailSubjects";
+import sendMail from "./utils/mailer";
 
 dotenv.config();
 
@@ -60,7 +61,7 @@ async function Jeremy() {
 
 }
 
-const createUser = async (firstNameVar: string, lastNameVar: String, emailVar: string) => {
+const createUser = async (firstNameVar: string, lastNameVar: string, emailVar: string) => {
     console.log('creatUser')
     const id = new mongoose.Types.ObjectId();
     const activationToken = genActivationToken({ id: String(id)});
@@ -74,11 +75,10 @@ const createUser = async (firstNameVar: string, lastNameVar: String, emailVar: s
     });
     console.log(user)
     user.save();
-    mailerController.trySendMail(emailVar,'première connexion')
+    sendMail(emailVar,firstNameVar, lastNameVar,EmailSubjects.firstConnect)
 }
 
-console.log('test')
-createUser("Arthur","de-Fays","aoto.taga.34@gmail.com");
+createUser("Anouk","OMS","anouk.oms@etu.umontpellier.fr");
 
 /*
 const getId = async ()=> {

@@ -1,5 +1,4 @@
 interface messageContent {
-  receiver: string,
   subject: string,
   title:string,
   text:string,

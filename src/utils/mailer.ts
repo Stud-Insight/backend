@@ -24,13 +24,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendMail = async (receiver:string, subject:string) => {
+const sendMail = async (receiver:string,lastName:string, name:string, subject:string) => {
   const htmlTemplate = await readFileAsync("./assets/mailTemplates/accountActivation.html", 'utf-8');
 
   const content:messageContent = contentBySubj(receiver, subject);
 
   const renderedTemplate = mustache.render(htmlTemplate, {
-    receiver: content.receiver,
+    receiver: lastName+" "+name,
     title: content.title,
     text: content.text,
     button: content.button
@@ -52,4 +52,4 @@ const sendMail = async (receiver:string, subject:string) => {
     });
 }
 
-export default { sendMail };
+export default sendMail ;
