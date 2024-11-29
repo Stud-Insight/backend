@@ -78,7 +78,7 @@ const createUser = async (firstNameVar: string, lastNameVar: String, emailVar: s
 }
 
 console.log('test')
-createUser("Arthur","de-Fays","anouk.comb@gmail.com");
+createUser("Arthur","de-Fays","aoto.taga.34@gmail.com");
 
 /*
 const getId = async ()=> {

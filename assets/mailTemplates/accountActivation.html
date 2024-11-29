@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,47 +13,69 @@
             font-size: large;
             text-align: center;
             align-content: center;
-            box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #0c5deb; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:31%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;
-        }
-
-        .button1 {
-            background-color: #008CBA; 
-            color: white; 
+            box-sizing: border-box;
+            display: inline-block;
+            text-decoration: none;
+            -webkit-text-size-adjust: none;
+            text-align: center;
+            color: white;
+            background-color: #008CBA;
             border: 2px solid #008CBA;
+            border-radius: 4px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            word-wrap: break-word;
         }
 
-        .button1:hover {
+        .button:hover {
             background-color: #72cbe9;
             color: black;
         }
     </style>
 </head>
+
 <body style="background-color:#F6F6F6;">
-    <center><div style="background-color:#FFFFFF;padding:3%; max-width: 70%">
-        <table align="center">
-            <tr>
-                <td align="center">
-                    <img src="https://fpvehpp.stripocdn.email/content/guids/4d1db98b-bb5a-4c60-8968-79d7ab25832b/images/image_2.png" width="180" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none"/>
-                </td>
-            </tr>
-            <table>
-                <hr/>
-                <tr>
-                    <td style="padding-top:5%">
-                        <p>Bonjour {{recipient}},</p>
-                        <p> </p>
-                        <p>{{text}}</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center">
-                        <a href="{{link}}" target="_blank" class="button button1">
-                            <span style="display:block;padding:10px 20px;line-height:120%;">{{button}}</span>
-                        </a>
-                    </td>
-                </tr>
-            </table>
-        </table>
-    </div></center>
+    <center>
+        <div style="max-width: 70%">
+            <center>
+                <div style="background-color:#FFFFFF;padding:3%;">
+                    <table align="center">
+                        <tr>
+                            <td align="center">
+                                <img src="https://fpvehpp.stripocdn.email/content/guids/4d1db98b-bb5a-4c60-8968-79d7ab25832b/images/image_2.png"
+                                    width="180"
+                                    style="display:block;font-size:14px;border:0;outline:none;text-decoration:none" />
+                            </td>
+                        </tr>
+                        <table>
+                            <hr />
+                            <tr>
+                                <td style="padding-top:5%">
+                                    <p>Bonjour {{receiver}},</p>
+                                    <p> </p>
+                                    <p>{{text}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <a href="{{link}}" target="_blank" class="button">
+                                        <span style="display:block;padding:10px 20px;line-height:120%;">{{button}}</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </table>
+                </div>
+            </center>
+            <div align="center">
+                <p>Pour nous contacter : <a href="mailto: contact@studinsight.fr">contact@studinsight.fr</a></p>
+                <p>30, Faculté des Sciences de Montpellier, Place E. Bataillon, 34095 Montpellier</p>
+            </div>
+        </div>
+    </center>
 </body>
+
 </html>
