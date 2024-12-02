@@ -7,7 +7,8 @@ const contentBySubj = (receiver: string, subject: string): MessageContent => {
       return {
         subject: "Première connexion",
         title: "Stud'Insight vous souhaite la bienvenue !",
-        text: "La création de votre compte sur la plateforme Stud'Insight a bien été effectuée.\nVous pouvez la finaliser en appuyant sur le bouton suivant, qui vous redirigera vers le site pour y créer votre mot de passe.",
+        text: `<p>La création de votre compte sur la plateforme Stud'Insight a bien été effectuée.</p>
+                <p>Vous pouvez la finaliser en appuyant sur le bouton suivant, qui vous redirigera vers le site pour y créer votre mot de passe.</p>`,
         button: "Entrer à Stud'Insight",
         link: "http://example.com/",
       };

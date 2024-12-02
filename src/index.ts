@@ -78,7 +78,7 @@ const createUser = async (firstNameVar: string, lastNameVar: string, emailVar: s
     sendMail(emailVar,firstNameVar, lastNameVar,EmailSubjects.firstConnect)
 }
 
-createUser("Anouk","OMS","anouk.oms@etu.umontpellier.fr");
+createUser("Aoto","TAGA","aoto.taga.34@gmail.com");
 
 /*
 const getId = async ()=> {
