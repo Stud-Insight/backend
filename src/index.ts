@@ -11,7 +11,6 @@ import AcademicProject from "./models/AcademicProject";
 import genActivationToken from "./controllers/generators/activationTokenGen";
 import IUser from "./interfaces/IUser";
 
-import mailerController from "./controllers/mailerController";
 import EmailSubjects from "./enums/emailSubjects";
 import sendMail from "./utils/mailer";
 
@@ -78,7 +77,7 @@ const createUser = async (firstNameVar: string, lastNameVar: string, emailVar: s
     sendMail(emailVar,firstNameVar, lastNameVar,EmailSubjects.firstConnect)
 }
 
-createUser("Aoto","TAGA","aoto.taga.34@gmail.com");
+createUser("Anouk","OMS","anouk.oms@etu.umontpellier.fr");
 
 /*
 const getId = async ()=> {
