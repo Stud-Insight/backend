@@ -1,55 +1,53 @@
-import { Request, Response } from "express";
-import { Attachment } from "nodemailer/lib/mailer";
+import { promisify } from "util";
 import nodemailer from "nodemailer";
+import mustache from 'mustache';
 import dotenv from "dotenv";
-import fs from 'fs';
-import { promisify } from 'util';
-
-import messageContent from "@/interfaces/messageContent";
+import fs from "fs";
 import contentBySubj from "./emailContent";
 
-const mustache = require('mustache');
-
 dotenv.config();
-
 const readFileAsync = promisify(fs.readFile);
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
   port: 587,
-  secure: false, // true for port 465, false for other ports
+  secure: false,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
 });
 
-const sendMail = async (receiver:string,lastName:string, name:string, subject:string) => {
-  const htmlTemplate = await readFileAsync("./assets/mailTemplates/accountActivation.html", 'utf-8');
+const sendMail = async (receiver: string, lastName: string, name: string, subject: string) => {
+  const htmlTemplate = await readFileAsync(
+    "./assets/mailTemplates/accountActivation.html",
+    "utf-8"
+  );
 
-  const content:messageContent = contentBySubj(receiver, subject);
+  const content = contentBySubj(receiver, subject);
 
   const renderedTemplate = mustache.render(htmlTemplate, {
-    receiver: lastName+" "+name,
+    receiver: lastName + " " + name,
     title: content.title,
     text: content.text,
-    button: content.button
+    button: content.button,
   });
 
-  const mailOptions =  {
-    from: "Stud'Insight <"+process.env.MAIL_CONTACT+">", // sender address
-    to: receiver, // list of receivers
-    subject: content.subject, // Subject line
-    html:renderedTemplate, // plain text body
-  }
+  const mailOptions = {
+    from: "Stud'Insight <" + process.env.MAIL_CONTACT + ">",
+    to: receiver,
+    subject: content.subject,
+    html: renderedTemplate,
+  };
+
   transporter
     .sendMail(mailOptions)
-    .then(()=>{
-      console.log({ message: "mail envoyé!"});
+    .then(() => {
+      console.log(`[📨] Mail envoyé à ${mailOptions.to}`);
     })
-    .catch((error)=>{
-      console.log({ message: "échec de l'envoie :(", error});
+    .catch((error) => {
+      console.error(`[📨❌] Erreur lors de l'envoi du mail à ${mailOptions.to} :`, error);
     });
-}
+};
 
-export default sendMail ;
+export default sendMail;
