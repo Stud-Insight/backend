@@ -14,7 +14,7 @@ const genRefreshToken = (payload: RefreshTokenPayload) => {
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: rfTkDuration }
     );
-    return { refreshToken, jti, exp: Date.now() + ms(rfTkDuration) };
+    return { refreshToken, jti, exp: new Date(Date.now() + ms(rfTkDuration)) };
 }
 
 export default genRefreshToken;
