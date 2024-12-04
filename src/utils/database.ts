@@ -1,3 +1,4 @@
+import User from '@/models/User';
 import mongoose from 'mongoose';
 
 const DATABASE_PREFIX = '[🌐] ';
@@ -15,3 +16,16 @@ export const connectDatabase = async (uri: string) => {
         console.error(error);
     }
 };
+
+export const cleanExpiredTokens = async () => {
+    const now = new Date();
+    try {
+        const result = await User.updateMany(
+            {},
+            { $pull: { refreshTokens: { exp: { $lt: now } } } }
+        );
+        console.log(`${result.modifiedCount} utilisateur(s) nettoyé(s).`);
+    } catch (error) {
+        console.error('Erreur lors du nettoyage des tokens expirés :', error);
+    }
+}

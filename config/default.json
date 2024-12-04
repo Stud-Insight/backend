@@ -12,6 +12,7 @@
         }
     },
     "database": {
-        "filesBucketName": "Files"
+        "filesBucketName": "Files",
+        "cleanupInterval": "1d"
     }
 }

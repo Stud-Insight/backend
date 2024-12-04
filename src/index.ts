@@ -7,6 +7,7 @@ import morgan from 'morgan';
 
 import { connectDatabase } from '@/utils/database';
 import { checkAdminExists, createAdminUser } from './utils/setup';
+import scheduleTokenCleanup from '../routines/scheduleTokenCleanup';
 
 dotenv.config();
 
@@ -30,3 +31,5 @@ app.use('/attachments', require('@routes/attachments'));
 app.listen(PORT, () => {
     console.log(`[🔥] Server listening on port ${PORT}`);
 });
+
+scheduleTokenCleanup();
