@@ -12,8 +12,8 @@ import scheduleTokenCleanup from '../routines/scheduleTokenCleanup';
 
 dotenv.config();
 
-const DATABASE_URI = (process.env.DATABASE_URI as string) || '';
-const PORT = config.get('server.port') || '8080';
+const DATABASE_URI = process.env.DATABASE_URI || '';
+const PORT = process.env.PORT || '8080';
 const app = express();
 
 app.use(cors(corsOptions));
@@ -21,16 +21,17 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('combined'));
 
-connectDatabase(DATABASE_URI).then(async () => {
-    const adminExists = await checkAdminExists();
-    if (!adminExists) createAdminUser();
-});
-
 app.use('/auth', require('@routes/auth'));
 app.use('/attachments', require('@routes/attachments'));
 
-app.listen(PORT, () => {
-    console.log(`[🔥] Server listening on port ${PORT}`);
+connectDatabase(DATABASE_URI).then(async () => {
+    const adminExists = await checkAdminExists();
+    if (!adminExists) createAdminUser();
+
+    app.listen(PORT, () => {
+        console.log(`[🔥] Server listening on port ${PORT}`);
+    });
 });
+
 
 scheduleTokenCleanup();
