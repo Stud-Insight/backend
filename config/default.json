@@ -8,6 +8,9 @@
             },
             "refresh": {
                 "duration": "30m"
+            },
+            "forgot": {
+                "duration": "10m"
             }
         },
         "allowedOrigins": [
@@ -16,6 +19,7 @@
         ]
     },
     "database": {
-        "filesBucketName": "Files"
+        "filesBucketName": "Files",
+        "cleanupInterval": "1d"
     }
 }

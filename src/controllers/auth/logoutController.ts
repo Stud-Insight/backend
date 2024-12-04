@@ -21,11 +21,11 @@ const handleLogout = (req: Request, res: Response) => {
         const user = await User.findById(decodedPayload.userId);
         if(!user) throw new Error("The user who tried to logout doesn't exist in the database.");
 
-        if(user.refreshToken != decodedPayload.jti) { responseWrapper.sendError(401, "INVALID_TOKEN"); return; }
+        if(!decodedPayload.jti || !user.refreshTokens.map(rfTk => rfTk.jti).includes(decodedPayload.jti)) { responseWrapper.sendError(401, "INVALID_TOKEN"); return; }
 
         await User.findByIdAndUpdate(
             user.id,
-            { $unset: { refreshToken: "" } }
+            { $pull: { refreshTokens: { $or: [{ jti: decodedPayload.jti }, { ip: req.ip }] } } }
         );
 
         res.status(200).send("Unauthentification successful.")

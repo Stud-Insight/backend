@@ -1,4 +1,5 @@
 import { ObjectId } from "mongoose";
+import RefreshTokenInformations from "./tokens/RefreshTokenInformations";
 
 interface IUser {
     id: string,
@@ -11,7 +12,8 @@ interface IUser {
     activationDate?: Date,
     activationToken?: string,
     lastLogin?: Date,
-    refreshToken?: string
+    refreshTokens: RefreshTokenInformations[],
+    forgotToken?: string
 }
 
 export default IUser;

@@ -1,7 +1,14 @@
-import { Schema, Types, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import config from 'config';
 import IUser from "@/interfaces/IUser";
 import isEmailValid from "./validators/isEmailValid";
+import RefreshTokenInformations from "@/interfaces/tokens/RefreshTokenInformations";
+
+const refreshTokenInfoSchema = new Schema<RefreshTokenInformations>({
+    jti: { type: String, required: true },
+    exp: { type: Date, required: true },
+    ip: { type: String, required: true }
+});
 
 const userSchema = new Schema<IUser>({
     firstName: { type: String, required: true },
@@ -17,7 +24,8 @@ const userSchema = new Schema<IUser>({
     activationDate: { type: Date },
     activationToken: { type: String },
     lastLogin: { type: Date },
-    refreshToken: { type: String }
+    refreshTokens: { type: [refreshTokenInfoSchema], default: [], },
+    forgotToken: { type: String }
 }, { minimize: false });
 
 export default model("users", userSchema);

@@ -26,7 +26,7 @@ const handleRefresh = async (req: Request, res: Response) => {
         const user = await User.findById(decodedPayload.userId);
         if(!user) throw new Error("The user who requested a new access token doesn't exist in the database.");
 
-        if(user.refreshToken != decodedPayload.jti) { responseWrapper.sendError(401, "INVALID_TOKEN"); return; }
+        if(!decodedPayload.jti || !user.refreshTokens.map(rfTk => rfTk.jti).includes(decodedPayload.jti)) { responseWrapper.sendError(401, "INVALID_TOKEN"); return; }
 
         const userRoles = await getRolesFromUserId(user.id);
 
@@ -37,28 +37,6 @@ const handleRefresh = async (req: Request, res: Response) => {
             email: user.email,
             roles: userRoles
         });
-
-        /*
-            Pour plus de sécurité, il est possible de regénérer un refreshToken à
-            chaque demande d'un nouvel accessToken afin de réduire les chances
-            de vol et d'utilisation d'anciens tokens.  
-        */
-
-        /*
-        const { refreshToken: newRefreshToken, jti: newJti } = genRefreshToken({
-            userId: user.id
-        });
-
-        await User.findByIdAndUpdate(
-            user.id,
-            { refreshToken: newJti }
-        );
-
-        res.cookie('refreshToken', newRefreshToken, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000,
-        });
-        */
 
         const sessionMaxAge = parseInt(ms(config.get('server.tokens.refresh.duration'))) / 1000;
 

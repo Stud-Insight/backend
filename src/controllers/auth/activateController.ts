@@ -9,10 +9,10 @@ const handleActivation = (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);
 
     const activationToken = req.params?.token;
-    if(!activationToken) responseWrapper.sendError(400, "BAD_REQUEST", "Jeton d'activation manquant.")
+    if(!activationToken) { responseWrapper.sendError(400, "BAD_REQUEST", "Jeton d'activation manquant."); return; }
 
     const newPassword: string = req.body?.password;
-    if(!newPassword) responseWrapper.sendError(400, "BAD_REQUEST", "Mot de passe manquant.") 
+    if(!newPassword) { responseWrapper.sendError(400, "BAD_REQUEST", "Mot de passe manquant."); return; } 
 
     if(!process.env.ACTIVATION_TOKEN_SECRET) throw new Error("ACTIVATION_TOKEN_SECRET IS NOT DEFINED.");
     jwt.verify(activationToken, process.env.ACTIVATION_TOKEN_SECRET, async (err, decoded) => {
