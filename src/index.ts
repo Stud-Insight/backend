@@ -1,4 +1,3 @@
-import config from 'config';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
@@ -31,6 +30,6 @@ connectDatabase(DATABASE_URI).then(async () => {
     app.listen(PORT, () => {
         console.log(`[🔥] Server listening on port ${PORT}`);
     });
-    
+
     scheduleTokenCleanup();
 });

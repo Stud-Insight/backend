@@ -1,7 +1,7 @@
-import config from "config";
 import { CorsOptions } from "cors";
+import config from "@config/config";
 
-const allowedOrigins = config.get<string[]>("server.allowedOrigins");
+const allowedOrigins = config.server.allowedOrigins;
 
 export const corsOptions: CorsOptions = {
     origin: ((requestOrigin, callback) => {

@@ -1,11 +1,12 @@
-import { cleanExpiredTokens } from '@/utils/database';
-import config from 'config';
 import ms from 'ms';
 import schedule from 'node-schedule';
 
+import config from '@config/config';
+import { cleanExpiredTokens } from '@/utils/database';
+
 const scheduleTokenCleanup = () => {
     
-    const intervalMs = parseInt(ms(config.get("database.cleanupInterval")));
+    const intervalMs = ms(config.database.cleanupInterval);
     if (!intervalMs || intervalMs < 1000) throw new Error("Intervalle de nettoyage invalide. Veuillez configurer un intervalle d'au moins 1 seconde.");
     
     schedule.scheduleJob(new Date(Date.now() + intervalMs), function runTask() {

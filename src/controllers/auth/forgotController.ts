@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import ResponseWrapper from '@/classes/ResponseWrapper';
-import genResetToken from '@/controllers/generators/resetTokenGen';
+import genResetToken from '@/generators/resetTokenGen';
 import User from '@/models/User';
 
 const handleForgot = async (req: Request, res: Response) => {

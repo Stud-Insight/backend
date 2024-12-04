@@ -1,12 +1,13 @@
-import User from '@/models/User';
-import { Request, Response } from 'express';
-import genAccessToken from '../generators/accessTokenGen';
-import genRefreshToken from '../generators/refreshTokenGen';
-import { getRolesFromUserId } from '@/utils/roles';
-import ResponseWrapper from '@/classes/ResponseWrapper';
 import bcrypt from 'bcrypt';
 import ms from 'ms';
-import config from 'config';
+
+import User from '@/models/User';
+import { Request, Response } from 'express';
+import { getRolesFromUserId } from '@/utils/roles';
+import genAccessToken from '@/generators/accessTokenGen';
+import genRefreshToken from '@/generators/refreshTokenGen';
+import ResponseWrapper from '@/classes/ResponseWrapper';
+import config from '@/config/config';
 
 const handleLogin = async (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);
@@ -77,7 +78,7 @@ const handleLogin = async (req: Request, res: Response) => {
         ]
     );
 
-    const sessionMaxAge = parseInt(ms(config.get('server.tokens.refresh.duration'))) / 1000;
+    const sessionMaxAge = ms(config.server.tokens.refresh.duration) / 1000;
 
     res.json({
         accessToken: accessToken,

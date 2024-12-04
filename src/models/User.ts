@@ -1,8 +1,9 @@
 import { Schema, model } from "mongoose";
-import config from 'config';
+
 import IUser from "@/interfaces/IUser";
 import isEmailValid from "./validators/isEmailValid";
 import RefreshTokenInformations from "@/interfaces/tokens/RefreshTokenInformations";
+import config from "@config/config";
 
 const refreshTokenInfoSchema = new Schema<RefreshTokenInformations>({
     jti: { type: String, required: true },
@@ -20,7 +21,7 @@ const userSchema = new Schema<IUser>({
         validate: [isEmailValid, "{VALUE} is not a valid email."],
         required: true
     },
-    profilePicture: { type: Schema.Types.ObjectId, ref: config.get('database.filesBucketName') + ".files", required: false },
+    profilePicture: { type: Schema.Types.ObjectId, ref: config.database.filesBucketName + ".files", required: false },
     activationDate: { type: Date },
     activationToken: { type: String },
     lastLogin: { type: Date },
