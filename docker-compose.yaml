@@ -21,7 +21,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - /home/basile/Documents/programmation/web/studinsight/docker/mongo-data:/data/db
+      - ./mongo-data:/data/db
 
 volumes:
   mongo-data:

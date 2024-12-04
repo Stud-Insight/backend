@@ -1,8 +1,7 @@
 import { JwtPayload } from "jsonwebtoken";
-import { ObjectId } from "mongoose";
 
 interface RefreshTokenPayload extends JwtPayload {
-    id: ObjectId
+    userId: String
 }
 
 export default RefreshTokenPayload;

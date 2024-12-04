@@ -1,17 +1,18 @@
 import handleActivation from "@/controllers/auth/activateController";
+import handleForgot from "@/controllers/auth/forgotController";
 import handleLogin from "@/controllers/auth/loginController";
+import handleLogout from "@/controllers/auth/logoutController";
 import handleRefresh from "@/controllers/auth/refreshController";
-import hasRoles from "@/middlewares/hasRoles";
-import verifyAuth from "@/middlewares/verifyAuth";
+import handleReset from "@/controllers/auth/resetController";
 import express from "express";
-
-import { Request, Response } from 'express';
 
 const router = express.Router();
 
 router.post('/login', handleLogin);
-router.post('/logout', verifyAuth, hasRoles("ADMIN"), (Request: Request, res: Response) => { res.status(200).send("Utilisateur a les rôles pour !!!!"); });
+router.post('/logout', handleLogout);
 router.post('/refresh', handleRefresh);
 router.post('/activate/:token', handleActivation);
+router.post('/forgot', handleForgot);
+router.post('/reset/:token', handleReset);
 
 module.exports = router;
