@@ -12,7 +12,8 @@ interface IUser {
     activationDate?: Date,
     activationToken?: string,
     lastLogin?: Date,
-    refreshTokens: RefreshTokenInformations[]
+    refreshTokens: RefreshTokenInformations[],
+    forgotToken?: string
 }
 
 export default IUser;
