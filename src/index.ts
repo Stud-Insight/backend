@@ -31,7 +31,6 @@ connectDatabase(DATABASE_URI).then(async () => {
     app.listen(PORT, () => {
         console.log(`[🔥] Server listening on port ${PORT}`);
     });
+    
+    scheduleTokenCleanup();
 });
-
-
-scheduleTokenCleanup();
