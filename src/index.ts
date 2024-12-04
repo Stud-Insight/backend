@@ -7,6 +7,7 @@ import morgan from 'morgan';
 
 import { connectDatabase } from '@/utils/database';
 import { checkAdminExists, createAdminUser } from './utils/setup';
+import { corsOptions } from './config/corsOptions';
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ const DATABASE_URI = (process.env.DATABASE_URI as string) || '';
 const PORT = config.get('server.port') || '8080';
 const app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('combined'));

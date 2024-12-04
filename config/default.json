@@ -9,7 +9,11 @@
             "refresh": {
                 "duration": "30m"
             }
-        }
+        },
+        "allowedOrigins": [
+            "http://localhost:3000",
+            "http://localhost:5173"
+        ]
     },
     "database": {
         "filesBucketName": "Files"
