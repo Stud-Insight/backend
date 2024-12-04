@@ -9,7 +9,7 @@
             "refresh": {
                 "duration": "30m"
             },
-            "forgot": {
+            "reset": {
                 "duration": "10m"
             }
         },

@@ -25,7 +25,7 @@ const userSchema = new Schema<IUser>({
     activationToken: { type: String },
     lastLogin: { type: Date },
     refreshTokens: { type: [refreshTokenInfoSchema], default: [], },
-    forgotToken: { type: String }
+    resetToken: { type: String }
 }, { minimize: false });
 
 export default model("users", userSchema);

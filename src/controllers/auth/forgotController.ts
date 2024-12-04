@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import ResponseWrapper from '@/classes/ResponseWrapper';
-import genForgotToken from '@controllers/generators/forgotTokenGen';
+import genResetToken from '@/controllers/generators/resetTokenGen';
 import User from '@/models/User';
 
 const handleForgot = async (req: Request, res: Response) => {
@@ -10,8 +10,8 @@ const handleForgot = async (req: Request, res: Response) => {
     const email: string = req.body?.email;
     if(!email) { responseWrapper.sendError(400, "BAD_REQUEST", "Adresse mail manquante."); return; }
 
-    const forgotToken = genForgotToken({ email });
-    const user = await User.findOneAndUpdate({ email }, { forgotToken });
+    const resetToken = genResetToken({ email });
+    const user = await User.findOneAndUpdate({ email }, { resetToken });
     if(!user) { responseWrapper.sendError(404, "USER_NOT_FOUND"); return; }
 
     /*
