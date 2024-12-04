@@ -50,13 +50,31 @@ const handleLogin = async (req: Request, res: Response) => {
         roles: userRoles,
     });
 
-    const { refreshToken, jti } = genRefreshToken({
+    const { refreshToken, jti, exp } = genRefreshToken({
         userId: user.id,
     });
 
     await User.findOneAndUpdate(
         { email: email },
-        { refreshToken: jti, lastLogin: new Date() }
+        [
+            {
+                $set: {
+                    refreshTokens: {
+                        $concatArrays: [
+                            {
+                                $filter: {
+                                    input: "$refreshTokens",
+                                    as: "token",
+                                    cond: { $ne: ["$$token.ip", req.ip] }
+                                }
+                            },
+                            [{ jti, exp, ip: req.ip }]
+                        ]
+                    },
+                    lastLogin: new Date()
+                }
+            }
+        ]
     );
 
     const sessionMaxAge = parseInt(ms(config.get('server.tokens.refresh.duration'))) / 1000;
