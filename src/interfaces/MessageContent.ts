@@ -3,7 +3,6 @@ interface MessageContent {
     title: string;
     text: string;
     button: string;
-    link: string;
 }
 
 export default MessageContent;

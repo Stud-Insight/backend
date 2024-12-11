@@ -22,6 +22,7 @@ app.use(morgan('combined'));
 
 app.use('/auth', require('@routes/auth'));
 app.use('/attachments', require('@routes/attachments'));
+app.use('/account', require('@routes/account'))
 
 connectDatabase(DATABASE_URI).then(async () => {
     const adminExists = await checkAdminExists();

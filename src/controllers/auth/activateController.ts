@@ -12,22 +12,30 @@ const handleActivation = (req: Request, res: Response) => {
     if(!activationToken) { responseWrapper.sendError(400, "BAD_REQUEST", "Jeton d'activation manquant."); return; }
 
     const newPassword: string = req.body?.password;
+    console.log('fled')
+    console.log(newPassword)
     if(!newPassword) { responseWrapper.sendError(400, "BAD_REQUEST", "Mot de passe manquant."); return; } 
 
     if(!process.env.ACTIVATION_TOKEN_SECRET) throw new Error("ACTIVATION_TOKEN_SECRET IS NOT DEFINED.");
     jwt.verify(activationToken, process.env.ACTIVATION_TOKEN_SECRET, async (err, decoded) => {
-        if(err || !decoded) { responseWrapper.sendError(401, "INAVLID_TOKEN"); return; }
+        if(err || !decoded) { 
+            console.log("hled")
+            console.log(err)
+            responseWrapper.sendError(401, "INAVLID_TOKEN"); 
+            return; 
+        }
 
         const decodedPayload = decoded as ActivationTokenPayload;
         const userId = decodedPayload.id;
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-
+        console.log('gled')
+        console.log(hashedPassword)
         await User.findByIdAndUpdate(userId, {
             $unset: { activationToken: "" },
             activationDate: new Date(),
             password: hashedPassword
         });
-
+        
         res.status(200).send("Account activation successfully realized.");
 
     });
