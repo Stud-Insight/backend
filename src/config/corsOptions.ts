@@ -9,7 +9,8 @@ export const corsOptions: CorsOptions = {
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(new Error("Not allowed by CORS"));
+            console.log("Not allowed by CORS", origin);
+            callback(new Error("Not allowed by CORS " + origin));
         }
     }),
     optionsSuccessStatus: 200,

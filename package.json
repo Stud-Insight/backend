@@ -43,7 +43,6 @@
   },
   "devDependencies": {
     "@types/bson": "^4.2.4",
-    "@types/config": "^3.3.5",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
