@@ -2,26 +2,42 @@
 services:
   app:
     build: .
+    image: studinsight-backend
+    container_name: studinsight-backend
     ports:
-      - "3000:8080"
+      - "8080:8080"
+    networks:
+      - studinsight-network
     environment:
-      - DATABASE_URI=mongodb://root:example@localhost:27017/studinsight?authSource=admin
+      - DATABASE_URI=mongodb://root:example@mongodb:27017/studinsight?authSource=admin
       - PORT=8080
-      - ACCESS_TOKEN_SECRET=98e735def7d4a7a77090fc7cca60f843ba0f137d6a81a38fe74e52e7a6f6944b
-      - REFRESH_TOKEN_SECRET=5710960cb0f273e9104b54e59e1d2527da27a94e47da2c75d288eabae57c8ca8
+      - ACCESS_TOKEN_SECRET=DF3oU5k3znbNzasd11qpPCyjg2p+eANJX+pr2lWmiRU=
+      - REFRESH_TOKEN_SECRET=FUl9ntGjYxRbcdZqWvCgDR0EZyKUBcBkloZ7rOvG2Ts=
+      - ACTIVATION_TOKEN_SECRET=lHnHBcW0XL4h/qrnpozUPy7chVmOtLktuKNYPt884T8=
+      - PASSWORD_RESET_TOKEN_SECRET=V8hf6tOH+YBN0ONQ9DD2qRm4JwPaZIG9d21oHWCfRdo=
+      - SMTP_USER=7fde8f001@smtp-brevo.com
+      - SMTP_PASS=st4EAxcVPZajdMkz
+      - MAIL_CONTACT=contact@studinsight.fr
+      - ADMIN_USER=admin
+      - ADMIN_PASSWORD=123456
     depends_on:
       - mongodb
 
   mongodb:
     image: mongo:latest
-    container_name: mongodb-local
+    container_name: studinsight-mongodb
     ports:
       - "27017:27017"
+    networks:
+      - studinsight-network
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - ./mongo-data:/data/db
+      - ../docker/mongo-data:/data/db
+
+networks:
+  studinsight-network:
 
 volumes:
   mongo-data:

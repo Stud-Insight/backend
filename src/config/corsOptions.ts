@@ -1,7 +1,7 @@
-import config from "config";
 import { CorsOptions } from "cors";
+import config from "@config/config";
 
-const allowedOrigins = config.get<string[]>("server.allowedOrigins");
+const allowedOrigins = config.server.allowedOrigins;
 
 export const corsOptions: CorsOptions = {
     origin: ((requestOrigin, callback) => {
@@ -9,7 +9,8 @@ export const corsOptions: CorsOptions = {
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(new Error("Not allowed by CORS"));
+            console.log("Not allowed by CORS", origin);
+            callback(new Error("Not allowed by CORS " + origin));
         }
     }),
     optionsSuccessStatus: 200,

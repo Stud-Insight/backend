@@ -1,14 +1,13 @@
+import jwt from 'jsonwebtoken';
+import ms from 'ms';
+
 import User from '@/models/User';
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import genAccessToken from '../generators/accessTokenGen';
 import { getRolesFromUserId } from '@/utils/roles';
 import ResponseWrapper from '@/classes/ResponseWrapper';
-import AccessTokenPayload from '@/interfaces/tokens/AccessTokenPayload';
+import genAccessToken from '../../generators/accessTokenGen';
 import RefreshTokenPayload from '@/interfaces/tokens/RefreshTokenPayload';
-import genRefreshToken from '../generators/refreshTokenGen';
-import config from 'config';
-import ms from 'ms';
+import config from '@config/config';
 
 const handleRefresh = async (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);
@@ -38,7 +37,7 @@ const handleRefresh = async (req: Request, res: Response) => {
             roles: userRoles
         });
 
-        const sessionMaxAge = parseInt(ms(config.get('server.tokens.refresh.duration'))) / 1000;
+        const sessionMaxAge = ms(config.server.tokens.refresh.duration) / 1000;
 
         res.status(200).json({ accessToken: newAccessToken, sessionMaxAge: sessionMaxAge });
     });
