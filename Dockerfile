@@ -7,6 +7,7 @@ WORKDIR /app
 # Variables d'environnements
 ARG PORT
 ARG DATABASE_URI
+ARG FRONTEND_ENDPOINT
 ARG HOST
 ARG ACCESS_TOKEN_SECRET
 ARG REFRESH_TOKEN_SECRET
@@ -21,6 +22,7 @@ ARG ADMIN_PASSWORD
 # Définir les variables d'environnement
 ENV PORT=$PORT
 ENV DATABASE_URI=$DATABASE_URI
+ENV FRONTEND_ENDPOINT=$FRONTEND_ENDPOINT
 ENV HOST=$HOST
 ENV ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET
 ENV REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET
@@ -47,9 +49,10 @@ FROM node:23
 
 WORKDIR /app
 
-# Copier uniquement le dossier dist (le code compilé) et le dossier node_modules depuis l'étape précédente
+# Copier uniquement les dossiers nécessaires pour l'exécution de l'application
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/assets ./dist/assets
 
 ENV NODE_ENV=production
 

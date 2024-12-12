@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import mustache from 'mustache';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import path from 'path';
 import contentBySubj from './emailContent';
 
 dotenv.config();
@@ -20,7 +21,7 @@ const transporter = nodemailer.createTransport({
 
 const sendMail = async (receiver: string, lastName: string, name: string, subject: string, link?: string) => {
     const htmlTemplate = await readFileAsync(
-        './assets/mailTemplates/mailTemplate.html',
+        path.resolve(__dirname, '../../assets/mailTemplates/mailTemplate.html'),
         'utf-8'
     );
 

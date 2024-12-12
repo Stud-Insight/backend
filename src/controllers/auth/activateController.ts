@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import User from '@/models/User';
 import ActivationTokenPayload from '@/interfaces/tokens/ActivationTokenPayload';
 
-const handleActivation = (req: Request, res: Response) => {
+export const handleActivation = (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);
 
     const activationToken = req.params?.token;
@@ -33,4 +33,22 @@ const handleActivation = (req: Request, res: Response) => {
 
 }
 
-export default handleActivation;
+export const handleCheckActivation = (req: Request, res: Response) => {
+    const responseWrapper = new ResponseWrapper(res);
+
+    const activationToken = req.params?.token;
+    if(!activationToken) { responseWrapper.sendError(400, "BAD_REQUEST", "Jeton d'activation manquant."); return; }
+
+    if(!process.env.ACTIVATION_TOKEN_SECRET) throw new Error("ACTIVATION_TOKEN_SECRET IS NOT DEFINED.");
+    jwt.verify(activationToken, process.env.ACTIVATION_TOKEN_SECRET, async (err, decoded) => {
+        if(err || !decoded) { responseWrapper.sendError(401, "INAVLID_TOKEN"); return; }
+
+        const decodedPayload = decoded as ActivationTokenPayload;
+        const userId = decodedPayload.id;
+
+        const user = await User.findById(userId);
+        if(user?.activationDate) { responseWrapper.sendError(400, "BAD_REQUEST", "Compte déjà activé."); return; }
+        
+        res.status(200).send("Jeton d'activation valide.");
+    });
+}

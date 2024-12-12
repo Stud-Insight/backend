@@ -1,10 +1,14 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import ResponseWrapper from '@/classes/ResponseWrapper';
+import dotenv from 'dotenv'
+
 import User from '@/models/User';
-import genActivationToken from '@/generators/activationTokenGen';
 import sendMail from '@/utils/mailer';
+import ResponseWrapper from '@/classes/ResponseWrapper';
+import genActivationToken from '@/generators/activationTokenGen';
 import EmailSubjects from '@/enums/emailSubjects';
+
+dotenv.config();
 
 const handleUserCreation = async (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);
@@ -40,7 +44,7 @@ const handleUserCreation = async (req: Request, res: Response) => {
         firstName,
         lastName,
         EmailSubjects.FIRST_CONNECT,
-        'http://localhost:5173/auth/account-validation/' + activationToken
+        `${process.env.FRONTEND_ENDPOINT}/auth/account-activation/${activationToken}`
     );
 
 };

@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import { connectDatabase } from '@/utils/database';
 import { checkAdminExists, createAdminUser } from './utils/setup';
 import { corsOptions } from './config/corsOptions';
-import scheduleTokenCleanup from '../routines/scheduleTokenCleanup';
+import scheduleTokenCleanup from './routines/scheduleTokenCleanup';
 
 dotenv.config();
 
