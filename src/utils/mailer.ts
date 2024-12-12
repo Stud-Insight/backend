@@ -18,9 +18,9 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const sendMail = async (receiver: string, lastName: string, name: string, subject: string) => {
+const sendMail = async (receiver: string, lastName: string, name: string, subject: string, link?: string) => {
     const htmlTemplate = await readFileAsync(
-        './assets/mailTemplates/accountActivation.html',
+        './assets/mailTemplates/mailTemplate.html',
         'utf-8'
     );
 
@@ -31,6 +31,7 @@ const sendMail = async (receiver: string, lastName: string, name: string, subjec
         title: content.title,
         text: content.text,
         button: content.button,
+        link:link
     });
 
     const mailOptions = {

@@ -29,7 +29,6 @@ const handleActivation = (req: Request, res: Response) => {
         });
 
         res.status(200).send("Account activation successfully realized.");
-
     });
 
 }
