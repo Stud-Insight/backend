@@ -9,7 +9,7 @@ const contentBySubj = (receiver: string, subject: string): MessageContent => {
                 title: "Stud'Insight vous souhaite la bienvenue !",
                 text: `<p>La création de votre compte sur la plateforme Stud'Insight a bien été effectuée.</p>
                 <p>Vous pouvez la finaliser en appuyant sur le bouton suivant, qui vous redirigera vers le site pour y créer votre mot de passe.</p>`,
-                button: "Entrer à Stud'Insight",
+                button: "Aller sur Stud'Insight",
             };
         }
         case EmailSubjects.NOTIFICATION: {
