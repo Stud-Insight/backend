@@ -3,10 +3,10 @@ const config = {
         host: 'localhost',
         tokens: {
             access: {
-                duration: '1m',
+                duration: '30m',
             },
             refresh: {
-                duration: '30m',
+                duration: '7d',
             },
             reset: {
                 duration: '4h',
