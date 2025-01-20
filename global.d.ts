@@ -1,7 +1,7 @@
-import LiteLogger from "@/utils/LiteLogger";
+import LiteLogger from "./src/utils/LiteLogger";
 
 declare global {
-    var llog: typeof LiteLogger = LiteLogger;
+    var llog: typeof LiteLogger;
 }
 
 export {};
