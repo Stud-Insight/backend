@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 
+import "@/utils/setupLogger";
 import { connectDatabase } from '@/utils/database';
 import { checkAdminExists, createAdminUser } from './utils/setup';
 import { corsOptions } from './config/corsOptions';
@@ -29,7 +30,7 @@ connectDatabase(DATABASE_URI).then(async () => {
     if (!adminExists) createAdminUser();
 
     app.listen(PORT, () => {
-        console.log(`[🔥] Server listening on port ${PORT}`);
+        llog.log(`[🔥] Server listening on port ${PORT}`);
     });
 
     scheduleTokenCleanup();
