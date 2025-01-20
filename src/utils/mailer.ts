@@ -19,19 +19,26 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+/**
+ * Envoie d'un mail
+ * @param receiver email du receveur
+ * @param lastName prénom du receveur
+ * @param name nom du receveur
+ * @param subject sujet du mail
+ * @param link lien de redirection vers le site
+ */
 const sendMail = async (receiver: string, lastName: string, name: string, subject: string, link?: string) => {
     const htmlTemplate = await readFileAsync(
         path.resolve(__dirname, '../../assets/mailTemplates/mailTemplate.html'),
         'utf-8'
     );
 
-    const content = contentBySubj(receiver, subject);
+    const content = contentBySubj(subject);
 
     const renderedTemplate = mustache.render(htmlTemplate, {
         receiver: lastName + ' ' + name,
         title: content.title,
         text: content.text,
-        button: content.button,
         link:link
     });
 
