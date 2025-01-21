@@ -6,37 +6,43 @@ class LiteLogger {
     private static readonly ORANGE_BG = '\x1b[0;103m';
     private static readonly RED_BG = '\x1b[0;101m';
     private static readonly BLUE_BG = '\x1b[44m';
-    private static readonly PURPLE_BG = '\x1b[0;105m';
+    private static readonly PURPLE_BG = '\x1b[45m';
     private static readonly LIME_BG = '\x1b[0;102m';
 
-    static log(message: string): void {
+    static log(message?: any, ...optionalParams: any[]): void {
         process.stdout.write(LiteLogger.WHITE_BG + LiteLogger.BLACK_BOLD + " LOG " + LiteLogger.RESET + " ");
-        console.log(message);
+        if (optionalParams.length == 0) console.log(message);
+        else console.log(message, optionalParams);
     }
     
-    static warn(message: string): void {
+    static warn(message?: any, ...optionalParams: any[]): void {
         process.stdout.write(LiteLogger.ORANGE_BG + LiteLogger.BLACK_BOLD + " WARN " + LiteLogger.RESET + " ");
-        console.log(message);
+        if (optionalParams.length == 0) console.log(message);
+        else console.warn(message, optionalParams);
     }
 
-    static error(message: string): void {
+    static error(message?: any, ...optionalParams: any[]): void {
         process.stdout.write(LiteLogger.RED_BG + LiteLogger.BLACK_BOLD + " ERROR " + LiteLogger.RESET + " ");
-        console.log(message);
+        if (optionalParams.length == 0) console.log(message);
+        else console.error(message, optionalParams);
     }
 
-    static info(message: string): void {
+    static info(message?: any, ...optionalParams: any[]): void {
         process.stdout.write(LiteLogger.BLUE_BG + LiteLogger.BLACK_BOLD + " INFO " + LiteLogger.RESET + " ");
-        console.log(message);
+        if (optionalParams.length == 0) console.log(message);
+        else console.info(message, optionalParams);
     }
 
-    static debug(message: string): void {
+    static debug(message?: any, ...optionalParams: any[]): void {
         process.stdout.write(LiteLogger.PURPLE_BG + LiteLogger.BLACK_BOLD + " DEBUG " + LiteLogger.RESET + " ");
-        console.log(message);
+        if (optionalParams.length == 0) console.log(message);
+        else console.debug(message, optionalParams);
     }
 
-    static pass(message: string): void {
-        process.stdout.write(LiteLogger.LIME_BG + LiteLogger.BLACK_BOLD + " PASS " + LiteLogger.RESET + " ");
-        console.log(message);
+    static ok(message?: any, ...optionalParams: any[]): void {
+        process.stdout.write(LiteLogger.LIME_BG + LiteLogger.BLACK_BOLD + " OK " + LiteLogger.RESET + " ");
+        if (optionalParams.length == 0) console.log(message);
+        else console.log(message, optionalParams);
     }
 
 }

@@ -30,7 +30,7 @@ connectDatabase(DATABASE_URI).then(async () => {
     if (!adminExists) createAdminUser();
 
     app.listen(PORT, () => {
-        llog.log(`[🔥] Server listening on port ${PORT}`);
+        llog.ok(`[🔥] Server listening on port ${PORT}`);
     });
 
     scheduleTokenCleanup();
