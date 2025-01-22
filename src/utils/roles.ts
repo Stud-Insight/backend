@@ -4,6 +4,16 @@ import Role from "@/models/Role";
 import User from "@/models/User";
 import mongoose, { ObjectId, Schema, model } from "mongoose";
 
+export const createRole = async (name: String, ...permissions: String[]) => {
+    const role = await Role.findOne({name});
+    if (role) {
+        llog.warn(`le role ${name} existe déjà`); 
+        return;
+    }
+    const res = await Role.create({name,permissions})
+    if (!res) llog.error(`echec de la création du role ${name}`)
+}
+
 export const addRoles = async (userId: String, ...roles: IRole[]) => {
     const user = await User.findById(userId);
     if (!user) return;
