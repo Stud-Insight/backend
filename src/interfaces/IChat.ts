@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import IMessage from "./IMessage";
-import ChatType from "@/enums/chatType";
+import ChatType from "@/enums/ChatType";
 
 interface IChat {
     members: Types.ObjectId[],

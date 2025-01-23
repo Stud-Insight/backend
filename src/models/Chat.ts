@@ -1,5 +1,5 @@
 import config from "@/config/config";
-import ChatType from "@/enums/chatType";
+import ChatType from "@/enums/ChatType";
 import IChat from "@/interfaces/IChat";
 import IMessage from "@/interfaces/IMessage";
 import { model, Schema } from "mongoose"
