@@ -13,7 +13,8 @@ interface IUser {
     activationToken?: string,
     lastLogin?: Date,
     refreshTokens: RefreshTokenInformations[],
-    resetToken?: string
+    resetToken?: string,
+    chats: ObjectId[]
 }
 
 export default IUser;

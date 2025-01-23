@@ -26,7 +26,8 @@ const userSchema = new Schema<IUser>({
     activationToken: { type: String },
     lastLogin: { type: Date },
     refreshTokens: { type: [refreshTokenInfoSchema], default: [], },
-    resetToken: { type: String }
+    resetToken: { type: String },
+    chats: { type: [Schema.Types.ObjectId], ref: "Chat", default: [], required: true },
 }, { minimize: false });
 
 export default model("users", userSchema);
