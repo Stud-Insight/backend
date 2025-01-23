@@ -4,8 +4,8 @@ import IMessage from "@/interfaces/IMessage";
 import { model, Schema } from "mongoose"
 
 const messageSchema = new Schema<IMessage>({
-    sender: { type: [Schema.Types.ObjectId], ref: "User", required: true },
-    sentAt: { type: Date, default: Date.now(), required: true },
+    sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    sentAt: { type: Date, required: true },
     content: { type: String, required: true },
     attachments: { type: [Schema.Types.ObjectId], ref: config.database.filesBucketName + ".files" },
 });
