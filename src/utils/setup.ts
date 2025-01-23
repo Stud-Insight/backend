@@ -3,14 +3,20 @@ import bcrypt from 'bcrypt';
 
 import User from '@/models/User';
 import IUser from '@/interfaces/IUser';
-import { addRolesFromNames, createRole } from './roles';
+import { addRolesFromNames, createRole, createRoleNoCheck } from './roles';
 import Role from '@/models/Role';
+import IRole from '@/interfaces/IRole';
 
 const SETUP_PREFIX = '[🔧] ';
 
 export const checkAdminExists = async () => {
     const adminRole = await Role.findOne({ name: 'ADMIN' });
     const query: IUser | null = await User.findOne({ roles: { $in: [adminRole?._id] } });
+    return !!query;
+}
+
+export const checkIfAdminRoleExists = async () => {
+    const query: IRole | null = await Role.findOne({ name: "ADMIN" });
     return !!query;
 }
 
@@ -38,8 +44,15 @@ export const createAdminUser = async () => {
         password: hashedPassword,
         activationDate: new Date()
     });
-    createRole("ADMIN","*");
-    addRolesFromNames(user.id, "ADMIN");
+
+    const adminRoleExists = await checkIfAdminRoleExists();
+    if(!adminRoleExists) {
+        llog.info("'ADMIN' role not found. Generating new one...");
+        await createRoleNoCheck('ADMIN', '*');
+        llog.ok("'ADMIN' role created successfully.");
+    }
+
+    addRolesFromNames(user.id, 'ADMIN');
 
     try {
         await user.save();

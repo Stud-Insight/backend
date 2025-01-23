@@ -7,11 +7,15 @@ import mongoose, { ObjectId, Schema, model } from "mongoose";
 export const createRole = async (name: String, ...permissions: String[]) => {
     const role = await Role.findOne({name});
     if (role) {
-        llog.warn(`le role ${name} existe déjà`); 
+        llog.warn(`Le rôle ${name} existe déjà, création ignorée.`); 
         return;
     }
-    const res = await Role.create({name,permissions})
-    if (!res) llog.error(`echec de la création du role ${name}`)
+    createRoleNoCheck(name, ...permissions);
+}
+
+export const createRoleNoCheck = async (name: String, ...permissions: String[]) => {
+    const res = await Role.create({name, permissions})
+    if (!res) { llog.error(`Échèc de la création / sauvegarde du rôle ${name}.`); throw new Error(); }
 }
 
 export const addRoles = async (userId: String, ...roles: IRole[]) => {
