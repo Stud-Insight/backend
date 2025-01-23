@@ -2,7 +2,7 @@ import { ObjectId } from "mongoose";
 
 interface IMessage {
     sender: ObjectId,
-    date: Date,
+    sentAt: Date,
     content: String,
     attachments: ObjectId[] | undefined;
 }

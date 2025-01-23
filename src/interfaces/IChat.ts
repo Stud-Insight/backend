@@ -3,7 +3,9 @@ import IMessage from "./IMessage";
 
 interface IChat {
     members: ObjectId[],
-    creationDate: Date,
+    type: String,
+    groupName: String,
+    groupCreatedAt: Date,
     messages: IMessage[]
 }
 
