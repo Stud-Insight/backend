@@ -1,10 +1,10 @@
-import { ObjectId } from "mongoose";
+import { Types } from "mongoose";
 
 interface IMessage {
-    sender: ObjectId,
+    sender: Types.ObjectId,
     sentAt: Date,
     content: String,
-    attachments: ObjectId[] | undefined;
+    attachments?: Types.ObjectId[];
 }
 
 export default IMessage;

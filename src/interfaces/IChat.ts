@@ -1,10 +1,11 @@
-import { ObjectId } from "mongoose";
+import { Types } from "mongoose";
 import IMessage from "./IMessage";
 
 interface IChat {
-    members: ObjectId[],
+    members: Types.ObjectId[],
     type: String,
     groupName: String,
+groupCreator: Types.ObjectId,
     groupCreatedAt: Date,
     messages: IMessage[]
 }
