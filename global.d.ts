@@ -1,4 +1,4 @@
-import LiteLogger from "./src/utils/LoggerDeLextremeDeLaMort";
+import LiteLogger from "./src/utils/LiteLogger";
 
 declare global {
     var llog: typeof LiteLogger;

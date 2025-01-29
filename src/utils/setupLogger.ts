@@ -1,4 +1,4 @@
-import LiteLogger from "./LoggerDeLextremeDeLaMort";
+import LiteLogger from "./LiteLogger";
 
 global.llog = LiteLogger;
 
