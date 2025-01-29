@@ -1,14 +1,17 @@
 import { Types } from "mongoose";
-import IMessage from "./IMessage";
 import ChatType from "@/enums/ChatType";
+import { IMessage, IMessage_Mongoose } from "./IMessage";
 
-interface IChat {
+export interface IChat {
     members: Types.ObjectId[],
     type: ChatType,
     groupName: String,
     groupCreator: Types.ObjectId,
     groupCreatedAt: Date,
-    messages: IMessage[]
+    // messages: IMessage[]
 }
 
-export default IChat;
+export interface IChat_Mongoose extends IChat {
+    _id: Types.ObjectId,
+    messages: IMessage_Mongoose[]
+}
