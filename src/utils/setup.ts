@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 import User from '@/models/User';
 import IUser from '@/interfaces/IUser';
-import { addRolesFromNames } from './roles';
+import { addRolesFromNames, createRole } from './roles';
 import Role from '@/models/Role';
 
 const SETUP_PREFIX = '[🔧] ';
@@ -38,6 +38,7 @@ export const createAdminUser = async () => {
         password: hashedPassword,
         activationDate: new Date()
     });
+    createRole("ADMIN","*");
     addRolesFromNames(user.id, "ADMIN");
 
     try {
