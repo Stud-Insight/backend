@@ -1,5 +1,6 @@
 import ChatType from "@/enums/ChatType";
-import IMessage from "@/interfaces/IMessage";
+import { IChat } from "@/interfaces/IChat";
+import { IMessage } from "@/interfaces/IMessage";
 import Chat from "@/models/Chat";
 import User from "@/models/User";
 import { Types } from "mongoose";
