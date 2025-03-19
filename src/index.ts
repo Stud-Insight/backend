@@ -9,6 +9,7 @@ import { connectDatabase } from '@/utils/database';
 import { checkAdminExists, createAdminUser } from './utils/setup';
 import { corsOptions } from './config/corsOptions';
 import scheduleTokenCleanup from './routines/scheduleTokenCleanup';
+import DatabaseConnector from './classes/DatabaseConnector';
 
 dotenv.config();
 
@@ -21,13 +22,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('combined'));
 
-app.use('/auth', require('@routes/auth'));
-app.use('/attachments', require('@routes/attachments'));
-app.use('/account', require('@routes/account'))
-
-connectDatabase(DATABASE_URI).then(async () => {
+DatabaseConnector.initiate(DATABASE_URI).then(async () => {
     const adminExists = await checkAdminExists();
     if (!adminExists) createAdminUser();
+
+    app.use('/auth', require('@routes/auth'));
+    app.use('/attachments', require('@routes/attachments'));
+    app.use('/account', require('@routes/account'))
 
     app.listen(PORT, () => {
         llog.ok(`[🔥] Server listening on port ${PORT}`);
