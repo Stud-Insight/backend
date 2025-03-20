@@ -1,12 +1,11 @@
 import ResponseWrapper from '@/classes/ResponseWrapper';
 import config from '@/config/config';
-import AuthRequestWrapper from '@/interfaces/AuthRequestWrapper';
 import User from '@/models/User';
 import { Request, Response } from 'express';
 import { GridFSBucket, GridFSFile, ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
 
-const handleAvatarUpload = (req: AuthRequestWrapper, res: Response) => {
+const handleAvatarUpload = (req: Request, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);
 
     if (!req.file) { responseWrapper.sendError(400, "FILE_REQUIRED"); return; }
@@ -27,7 +26,7 @@ const handleAvatarUpload = (req: AuthRequestWrapper, res: Response) => {
 
     uploadStream.on('finish', async () => {
         try {
-            const user = await User.findById(req.authDecoded?.id);
+            const user = await User.findById(req.authDecoded!.id);
             if(!user) throw new Error("User not found");
 
             // Suppression de l'ancienne image de profil de l'utilisateur
@@ -42,7 +41,7 @@ const handleAvatarUpload = (req: AuthRequestWrapper, res: Response) => {
             }
         
             // Mise à jour de l'utilisateur avec l'ID de la nouvelle image
-            await User.findByIdAndUpdate(req.authDecoded?.id, { avatar: newAvatarId });
+            await User.findByIdAndUpdate(req.authDecoded!.id, { avatar: newAvatarId });
             
             res.status(201).send('Image sauvegardée avec succès.');
         } catch (error) {

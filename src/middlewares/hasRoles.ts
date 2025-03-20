@@ -1,14 +1,13 @@
 import User from '@/models/User';
-import AuthRequestWrapper from '@/interfaces/AuthRequestWrapper';
 import ResponseWrapper from '@/classes/ResponseWrapper';
 import { getRolesFromUserId } from '@/utils/roles';
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import IRole from '@/interfaces/IRole';
 import IUser from '@/interfaces/IUser';
 
 const hasRoles = (...roles: String[]) => {
-    return async (req: AuthRequestWrapper, res: Response, next: NextFunction) => {
-        if(!req?.authDecoded) throw new Error("Please use the 'hasRoles' middleware after a 'verifyAuth' middleware.");
+    return async (req: Request, res: Response, next: NextFunction) => {
+        if(!req.authDecoded) throw new Error("Please use the 'hasRoles' middleware after a 'verifyAuth' middleware.");
         const responseWrapper = new ResponseWrapper(res);
 
         const user = await User.findById(req.authDecoded.id) as IUser;
