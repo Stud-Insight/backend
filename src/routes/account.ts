@@ -3,6 +3,10 @@ import express from "express";
 
 const router = express.Router();
 
-router.post('/', accountController.handleUserCreation);
+router.post('/', accountController.createUser);
+router.get('/', accountController.getUsers);
+router.get('/:id', accountController.getUserById);
+router.put('/:id', accountController.updateUser);
+router.delete('/:id', accountController.deleteUser);
 
-module.exports = router;
+export default router;
