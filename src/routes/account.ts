@@ -9,4 +9,4 @@ router.get('/:id', accountController.getUserById);
 router.put('/:id', accountController.updateUser);
 router.delete('/:id', accountController.deleteUser);
 
-export default router;
+module.exports = router;
