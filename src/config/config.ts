@@ -3,13 +3,13 @@ const config = {
         host: 'localhost',
         tokens: {
             access: {
-                duration: '30m',
+                duration: '6h',
             },
             refresh: {
                 duration: '7d',
             },
             reset: {
-                duration: '4h',
+                duration: '1d',
             },
         },
         allowedOrigins: ['http://localhost:3000', 'http://localhost:5173', '*'],
