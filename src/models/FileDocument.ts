@@ -4,16 +4,11 @@ import { model, Schema, Types } from "mongoose";
 
 const fileDocumentSchema = new Schema<IFileDocument>({
     rawFile: { type: Schema.Types.ObjectId, ref: config.database.filesBucketName + '.files', required: true },
-    createdAt: { type: Date, default: new Date(), required: true },
-    updatedAt: { type: Date, default: new Date(), required: true },
-    permissions: {
-        byUser: {
-            type: Map,
-            of: String,
-            default: new Map<Types.ObjectId, String>(),
-            required: true
-        }
-    }
+    owner: { type: Schema.Types.ObjectId, ref: 'users', required: true }
 }, { minimize: false });
+
+fileDocumentSchema.methods.canBeViewedByUser = async (userId: string): Promise<boolean> => {
+    return await (async () => true)();
+}
 
 export default model('files.documents', fileDocumentSchema);
