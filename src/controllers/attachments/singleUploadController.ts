@@ -6,7 +6,7 @@ import { Request, Response } from 'express';
 import { GridFSBucket, GridFSFile, ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
 
-const handleProfilePictureUpload = (req: AuthRequestWrapper, res: Response) => {
+const handleAvatarUpload = (req: AuthRequestWrapper, res: Response) => {
     const responseWrapper = new ResponseWrapper(res);
 
     if (!req.file) { responseWrapper.sendError(400, "FILE_REQUIRED"); return; }
@@ -18,8 +18,8 @@ const handleProfilePictureUpload = (req: AuthRequestWrapper, res: Response) => {
     if(!dbConnection) throw new Error("Connection with database could not be established");
     const bucket = new GridFSBucket(dbConnection, { bucketName: config.database.filesBucketName });
 
-    const newProfilePictureId = new ObjectId();
-    const uploadStream = bucket.openUploadStreamWithId(newProfilePictureId, req.file.originalname, {
+    const newAvatarId = new ObjectId();
+    const uploadStream = bucket.openUploadStreamWithId(newAvatarId, req.file.originalname, {
         contentType: req.file.mimetype
     });
 
@@ -31,18 +31,18 @@ const handleProfilePictureUpload = (req: AuthRequestWrapper, res: Response) => {
             if(!user) throw new Error("User not found");
 
             // Suppression de l'ancienne image de profil de l'utilisateur
-            const oldProfilePictureId = user.profilePicture.toString();
-            if (oldProfilePictureId) {
+            const oldAvatarId = user.avatar.toString();
+            if (oldAvatarId) {
                 try {
-                    await bucket.delete(new ObjectId(oldProfilePictureId));
-                    console.log(`Deleted old profile picture: ${user.profilePicture}`);
+                    await bucket.delete(new ObjectId(oldAvatarId));
+                    console.log(`Deleted old profile picture: ${user.avatar}`);
                 } catch (err) {
                     console.warn(`Failed to delete old profile picture`);
                 }
             }
         
             // Mise à jour de l'utilisateur avec l'ID de la nouvelle image
-            await User.findByIdAndUpdate(req.authDecoded?.id, { profilePicture: newProfilePictureId });
+            await User.findByIdAndUpdate(req.authDecoded?.id, { avatar: newAvatarId });
             
             res.status(201).send('Image sauvegardée avec succès.');
         } catch (error) {
@@ -58,4 +58,4 @@ const handleProfilePictureUpload = (req: AuthRequestWrapper, res: Response) => {
 
 }
 
-export default handleProfilePictureUpload;
+export default handleAvatarUpload;
