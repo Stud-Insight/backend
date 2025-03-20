@@ -1,10 +1,9 @@
-import AuthRequestWrapper from '@/interfaces/AuthRequestWrapper';
 import ResponseWrapper from '@/classes/ResponseWrapper';
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import AccessTokenPayload from '@/interfaces/tokens/AccessTokenPayload';
 
-const verifyAuth = (req: AuthRequestWrapper, res: Response, next: NextFunction) => {
+const verifyAuth = (req: Request, res: Response, next: NextFunction) => {
     const responseWrapper = new ResponseWrapper(res);
     const authHeader = req.headers.authorization || req.headers.Authorization as string;
 

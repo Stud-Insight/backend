@@ -7,4 +7,4 @@
 └── attachments/
     ├── :userId/:fileId - GET, DELETE 🔒
     ├── upload - POST 🔒
-    └── profilePicture - POST, DELETE 🔒
+    └── avatar - POST, DELETE 🔒

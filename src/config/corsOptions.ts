@@ -6,7 +6,7 @@ const allowedOrigins = config.server.allowedOrigins;
 export const corsOptions: CorsOptions = {
     origin: ((requestOrigin, callback) => {
         const origin = requestOrigin || "";
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
             console.log("Not allowed by CORS", origin);

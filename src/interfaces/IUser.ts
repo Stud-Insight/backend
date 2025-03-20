@@ -8,7 +8,7 @@ interface IUser {
     password?: string,
     email: string,
     roles: ObjectId[],
-    profilePicture: ObjectId,
+    avatar: ObjectId,
     activationDate?: Date,
     activationToken?: string,
     lastLogin?: Date,

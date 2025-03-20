@@ -15,7 +15,7 @@ const config = {
         allowedOrigins: ['http://localhost:3000', 'http://localhost:5173', '*'],
     },
     database: {
-        filesBucketName: 'Files',
+        filesBucketName: 'Raw',
         cleanupInterval: '1d',
     },
 };
