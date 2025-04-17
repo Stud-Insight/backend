@@ -2,9 +2,16 @@
 ├── auth/
 │   ├── login - POST
 │   ├── logout - POST
-│   ├── refresh - POST 🔒
-│   └── activate/:token - GET
-└── attachments/
-    ├── :userId/:fileId - GET, DELETE 🔒
-    ├── upload - POST 🔒
-    └── avatar - POST, DELETE 🔒
+│   ├── refresh - POST
+│   ├── activate/
+│   │   ├── :token - POST
+│   │   └── check/
+│   │       └── :token - POST
+│   ├── forgot - POST
+│   └── reset/
+│       └── :token - POST
+├── attachments/
+│   ├── upload - POST
+│   ├── avatar - POST
+│   └── :fileId - GET, DELETE
+└── account - POST
