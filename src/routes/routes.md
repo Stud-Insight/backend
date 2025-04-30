@@ -14,4 +14,14 @@
 │   ├── upload - POST
 │   ├── avatar - POST
 │   └── :fileId - GET, DELETE
-└── account - POST
+├── account - POST
+│
+│
+│
+│
+│
+└── api/
+    └── ter/
+        ├── :category - GET // Permet d'accéder à la liste des TERs pour chacune des catégories (INFO, BIO, ...)
+        ├── create - POST // Ajout d'un TER 
+        └── :id/ - GET, POST, DELETE // Récupération, suppression ou modification d'un TER pré-existant
