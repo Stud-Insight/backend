@@ -1,9 +1,11 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
 import IUser from "@/interfaces/IUser";
 import isEmailValid from "./validators/isEmailValid";
 import RefreshTokenInformations from "@/interfaces/tokens/RefreshTokenInformations";
 import config from "@config/config";
+import IRole from "@/interfaces/IRole";
+import Role from "./Role";
 
 const refreshTokenInfoSchema = new Schema<RefreshTokenInformations>({
     jti: { type: String, required: true },
@@ -28,5 +30,11 @@ const userSchema = new Schema<IUser>({
     refreshTokens: { type: [refreshTokenInfoSchema], default: [], },
     resetToken: { type: String }
 }, { minimize: false });
+
+userSchema.methods.hasRole = async function (name: string) {
+    const role: IRole | null = await Role.findOne({ name });
+    if(!role) throw new Error(`Role '${name}' not found`);
+    return this.roles.some((roleId: Types.ObjectId) => roleId.equals(role.id));
+}
 
 export default model("users", userSchema);

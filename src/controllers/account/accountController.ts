@@ -49,4 +49,27 @@ const handleUserCreation = async (req: Request, res: Response) => {
 
 };
 
-export default { handleUserCreation };
+const getAllUsers = async (req: Request, res: Response) => {
+    const responseWrapper = new ResponseWrapper(res);
+
+    try {
+        const users = await User.find({})
+                                .select('-password -refreshTokens -activationToken -resetToken')
+                                .populate('roles')
+                                .populate('avatar')
+                                .exec();
+
+        responseWrapper.sendSuccess(200, 'OK', users);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des utilisateurs:", error);
+
+        responseWrapper.sendError(
+            500,
+            'INTERNAL_SERVER_ERROR',
+            'Une erreur est survenue lors de la récupération des utilisateurs.'
+        );
+    }
+};
+
+
+export default { handleUserCreation, getAllUsers };

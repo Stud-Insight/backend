@@ -14,6 +14,7 @@ interface IUser {
     lastLogin?: Date,
     refreshTokens: RefreshTokenInformations[],
     resetToken?: string
+    hasRole: (name: string) => Promise<boolean>;
 }
 
 export default IUser;

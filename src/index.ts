@@ -5,7 +5,6 @@ import express from 'express';
 import morgan from 'morgan';
 
 import "@/utils/setupLogger";
-import { connectDatabase } from '@/utils/database';
 import { checkAdminExists, createAdminUser } from './utils/setup';
 import { corsOptions } from './config/corsOptions';
 import scheduleTokenCleanup from './routines/scheduleTokenCleanup';

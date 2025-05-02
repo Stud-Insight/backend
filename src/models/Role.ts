@@ -6,4 +6,4 @@ const roleSchema = new Schema<IRole>({
     permissions: { type: [String], default: [], required: true }
 }, { minimize: false });
 
-export default model('roles', roleSchema);
+export default model('Role', roleSchema);
