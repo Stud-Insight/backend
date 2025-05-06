@@ -22,7 +22,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.7",
     "bcrypt": "^5.1.1",
-    "bson": "^6.10.0",
+    "bson": "^6.10.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -44,7 +44,6 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
-    "@types/bson": "^4.2.4",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/downloadjs": "^1.4.6",
